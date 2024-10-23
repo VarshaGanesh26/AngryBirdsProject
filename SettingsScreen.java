@@ -37,7 +37,6 @@ public class SettingsScreen implements Screen {
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.WHITE);
 
-        // Create labels
         Label termsLabel = new Label("TERMS AND PRIVACY", labelStyle);
         Label volumeLabel = new Label("VOLUME", labelStyle);
         Label backLabel = new Label("GO BACK", labelStyle);
@@ -46,8 +45,7 @@ public class SettingsScreen implements Screen {
         termsLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: Implement terms and privacy functionality
-                // You could create a new screen for terms and privacy
+                // TODO: Implement terms and privacy screen
                 System.out.println("Terms and Privacy clicked");
             }
         });
@@ -55,8 +53,7 @@ public class SettingsScreen implements Screen {
         volumeLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: Implement volume control functionality
-                // You could show a volume slider or create a new screen for audio settings
+                // TODO: Implement volume controls
                 System.out.println("Volume clicked");
             }
         });
@@ -64,12 +61,11 @@ public class SettingsScreen implements Screen {
         backLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Return to home screen
+                // Return to HomeScreen when GO BACK is clicked
                 game.setScreen(new HomeScreen(game));
             }
         });
 
-        // Add labels to table with spacing
         table.add(termsLabel).padBottom(20).row();
         table.add(volumeLabel).padBottom(20).row();
         table.add(backLabel);
