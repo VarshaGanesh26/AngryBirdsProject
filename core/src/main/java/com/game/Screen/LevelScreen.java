@@ -1,4 +1,4 @@
-package Screens;
+package com.game.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -15,60 +15,60 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.game.Main;
 
-public class HomeScreen implements Screen {
+public class LevelScreen implements Screen {
     private Main game;
-    private Texture background;
-    private OrthographicCamera camera;
-    private Viewport viewport;
+    private Texture bg;
+    private OrthographicCamera cam;
+    private Viewport vp;
     private Stage stage;
     private BitmapFont font;
 
-    public HomeScreen(final Main game) {
+    public LevelScreen(final Main game) {
         this.game = game;
-        background = new Texture("angryBird-2.jpeg");
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(Main.V_WIDTH, Main.V_HEIGHT, camera);
-        stage = new Stage(viewport, game.batch);
+        bg = new Texture("background.jpg");
+        cam = new OrthographicCamera();
+        vp = new FitViewport(Main.V_WIDTH, Main.V_HEIGHT, cam);
+        stage = new Stage(vp, game.batch);
         font = new BitmapFont();
 
         Table table = new Table();
-        table.bottom();
+        table.center();
         table.setFillParent(true);
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.WHITE);
+        Label.LabelStyle ls = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.WHITE);
 
-        Label playLabel = new Label("PLAY", labelStyle);
-        Label settingsLabel = new Label("SETTINGS", labelStyle);
-        Label quitLabel = new Label("QUIT", labelStyle);
+        //creating level labels
+        //only implementing level 1
+        Label level1Label = new Label("LEVEL 1", ls);
+        Label level2Label = new Label("LEVEL 2", ls);
+        Label level3Label = new Label("LEVEL 3", ls);
 
-        // Add click listeners
-        playLabel.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LevelScreen(game));
-            }
-        });
-
-        settingsLabel.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // Navigate to Settings screen when clicked
-                game.setScreen(new SettingsScreen(game));
-            }
-        });
-
-        quitLabel.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
-
-        table.add(playLabel).padBottom(20).row();
-        table.add(settingsLabel).padBottom(20).row();
-        table.add(quitLabel);
+        table.add(level1Label).padBottom(10);
+        table.row();
+        table.add(level2Label).padBottom(10);
+        table.row();
+        table.add(level3Label);
 
         stage.addActor(table);
+
+        level1Label.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new LevelOne(game));
+            }
+        });
+
+        //creating back label
+        Label backLabel = new Label("Back", ls);
+        backLabel.setPosition(10, Main.V_HEIGHT - 30); // Position in top-left corner
+        backLabel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new HomeScreen(game));
+            }
+        });
+
+        stage.addActor(backLabel);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class HomeScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.batch.draw(background, 0, 0, Main.V_WIDTH, Main.V_HEIGHT);
+        game.batch.draw(bg, 0, 0, Main.V_WIDTH, Main.V_HEIGHT);
         game.batch.end();
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -91,7 +91,7 @@ public class HomeScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        vp.update(width, height);
     }
 
     @Override
@@ -105,7 +105,8 @@ public class HomeScreen implements Screen {
 
     @Override
     public void dispose() {
-        background.dispose();
+        //dispose resources
+        bg.dispose();
         stage.dispose();
         font.dispose();
     }

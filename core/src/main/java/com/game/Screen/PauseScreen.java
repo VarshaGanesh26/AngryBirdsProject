@@ -1,4 +1,4 @@
-package Screens;
+package com.game.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,60 +17,54 @@ import com.game.Main;
 
 public class PauseScreen implements Screen {
     private Main game;
-    private Texture background;
-    private OrthographicCamera camera;
-    private Viewport viewport;
+    private Texture bg;
+    private OrthographicCamera cam;
+    private Viewport vp;
     private Stage stage;
     private BitmapFont font;
-    private Screen previousScreen; // To store the screen to return to when resuming
+    private LevelOne levelone;
 
-    public PauseScreen(final Main game, final Screen previousScreen) {
+    public PauseScreen(final Main game, LevelOne levelone) {
         this.game = game;
-        this.previousScreen = previousScreen;
-        background = new Texture("pauseScreen.jpeg");
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(Main.V_WIDTH, Main.V_HEIGHT, camera);
-        stage = new Stage(viewport, game.batch);
+        this.levelone= levelone;
+        bg = new Texture("background.jpg");
+        cam = new OrthographicCamera();
+        vp = new FitViewport(Main.V_WIDTH, Main.V_HEIGHT, cam);
+        stage = new Stage(vp, game.batch);
         font = new BitmapFont();
 
         Table table = new Table();
         table.center();
         table.setFillParent(true);
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.WHITE);
+        Label.LabelStyle ls = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.WHITE);
 
-        // Create labels
-        Label resumeLabel = new Label("RESUME", labelStyle);
-        Label quitGameLabel = new Label("QUIT GAME", labelStyle);
-        Label quitAndSaveLabel = new Label("QUIT AND SAVE", labelStyle);
+        //creating labels and making ClickListeners
+        Label resumeLabel = new Label("RESUME", ls);
+        Label quitGameLabel = new Label("QUIT GAME", ls);
+        Label quitAndSaveLabel = new Label("QUIT AND SAVE", ls);
 
-        // Add click listeners
         resumeLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Return to the previous screen
-                game.setScreen(previousScreen);
+                game.setScreen(levelone);
             }
         });
 
         quitGameLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Exit the game
-                Gdx.app.exit();
+                game.setScreen(new HomeScreen(game));
             }
         });
 
         quitAndSaveLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: Implement save game functionality
-                // For now, just return to home screen
                 game.setScreen(new HomeScreen(game));
             }
         });
 
-        // Add labels to table with spacing
         table.add(resumeLabel).padBottom(20).row();
         table.add(quitGameLabel).padBottom(20).row();
         table.add(quitAndSaveLabel);
@@ -88,17 +82,18 @@ public class PauseScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        game.batch.begin();
-        game.batch.draw(background, 0, 0, Main.V_WIDTH, Main.V_HEIGHT);
+        game.batch.begin(); //initializing batch
+        game.batch.draw(bg, 0, 0, Main.V_WIDTH, Main.V_HEIGHT); //drawing texture
         game.batch.end();
 
+        //rendering stage
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        vp.update(width, height);
     }
 
     @Override
@@ -112,7 +107,8 @@ public class PauseScreen implements Screen {
 
     @Override
     public void dispose() {
-        background.dispose();
+        //dispose resources
+        bg.dispose();
         stage.dispose();
         font.dispose();
     }

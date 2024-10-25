@@ -1,4 +1,4 @@
-package Screens;
+package com.game.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,51 +17,53 @@ import com.game.Main;
 
 public class SettingsScreen implements Screen {
     private Main game;
-    private Texture background;
-    private OrthographicCamera camera;
-    private Viewport viewport;
+    private Texture bg;
+    private OrthographicCamera cam ;
+    private Viewport vp;
     private Stage stage;
     private BitmapFont font;
+    private boolean flag = false;
+    private Label volumeLabel;
 
     public SettingsScreen(final Main game) {
         this.game = game;
-        background = new Texture("setting.jpg");
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(Main.V_WIDTH, Main.V_HEIGHT, camera);
-        stage = new Stage(viewport, game.batch);
+        bg = new Texture("setting.jpg");
+        cam = new OrthographicCamera();
+        vp = new FitViewport(Main.V_WIDTH, Main.V_HEIGHT, cam);
+        stage = new Stage(vp, game.batch);
         font = new BitmapFont();
+
+//        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("theme.mp3"));
+//        backgroundMusic.setLooping(true);
 
         Table table = new Table();
         table.center();
         table.setFillParent(true);
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.WHITE);
+        Label.LabelStyle ls = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.WHITE);
 
-        Label termsLabel = new Label("TERMS AND PRIVACY", labelStyle);
-        Label volumeLabel = new Label("VOLUME", labelStyle);
-        Label backLabel = new Label("GO BACK", labelStyle);
+        //creating labels
+        Label termsLabel = new Label("T&C", ls);
+        volumeLabel = new Label("VOLUME: off", ls);
+        Label backLabel = new Label("EXIT", ls);
 
-        // Add click listeners
         termsLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: Implement terms and privacy screen
-                System.out.println("Terms and Privacy clicked");
+                game.setScreen(new TermsPrivacyScreen(game));
             }
         });
 
         volumeLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // TODO: Implement volume controls
-                System.out.println("Volume clicked");
+                toggleVolume();
             }
         });
 
         backLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Return to HomeScreen when GO BACK is clicked
                 game.setScreen(new HomeScreen(game));
             }
         });
@@ -73,18 +75,43 @@ public class SettingsScreen implements Screen {
         stage.addActor(table);
     }
 
+    //for volume settings
+    private void toggleVolume() {
+        flag = !flag;
+        if (flag) {
+            volumeLabel.setText("Volume: On"); //displayed on screen
+            game.bgm.setVolume(1.0f); //increasing volume
+            if (!game.bgm.isPlaying()) {
+                game.bgm.play();  //if not already on, music will play
+            }
+        } else {
+            volumeLabel.setText("Volume: Off");
+            game.bgm.setVolume(0.0f);  //muting music
+            game.bgm.stop();
+        }
+    }
+
+
     @Override
     public void show() {
+        //this is actually displayed on screen
         Gdx.input.setInputProcessor(stage);
+        if (game.bgm.isPlaying()) {
+            flag = true;
+            volumeLabel.setText("Volume: On");
+        } else {
+            flag = false;
+            volumeLabel.setText("Volume: Off");
+        }
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1); //color set to white
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.batch.draw(background, 0, 0, Main.V_WIDTH, Main.V_HEIGHT);
+        game.batch.draw(bg, 0, 0, Main.V_WIDTH, Main.V_HEIGHT);
         game.batch.end();
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -93,7 +120,7 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        vp.update(width, height);
     }
 
     @Override
@@ -107,7 +134,7 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void dispose() {
-        background.dispose();
+        bg.dispose();
         stage.dispose();
         font.dispose();
     }
