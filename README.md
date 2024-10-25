@@ -69,6 +69,13 @@ Lose condition leads to Lose Screen
 Music can be toggled at any point using the "VOLUME" label on the settings screen.
 
 
+CONTRIBUTIONS:
+Sravya Uppalapati (2023534):
+HomeScreen, PauseScreen, LevelScreen, SettingsScreen, WinScreen, ReadMe file
+Varsha Ganesh (2023583):
+PlayScreen, LevelOne, T&CScreen, Sprites, LoseScreen, UML Diagram
+
+
 ONLINE SOURCES:
 
 We have referred to the following tutorial on YouTube.
