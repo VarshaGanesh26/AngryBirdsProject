@@ -32,6 +32,7 @@ public class PauseScreen implements Screen {
         vp = new FitViewport(Main.V_WIDTH, Main.V_HEIGHT, cam);
         stage = new Stage(vp, game.batch);
         font = new BitmapFont();
+        font.getData().setScale(2.0f);
 
         Table table = new Table();
         table.center();
