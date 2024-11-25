@@ -22,11 +22,11 @@ public class PauseScreen implements Screen {
     private Viewport vp;
     private Stage stage;
     private BitmapFont font;
-    private LevelOne levelone;
+    private Screen previousScreen;  // Generic Screen reference instead of specific level
 
-    public PauseScreen(final Main game, LevelOne levelone) {
+    public PauseScreen(final Main game, Screen previousScreen) {
         this.game = game;
-        this.levelone= levelone;
+        this.previousScreen = previousScreen;
         bg = new Texture("background.jpg");
         cam = new OrthographicCamera();
         vp = new FitViewport(Main.V_WIDTH, Main.V_HEIGHT, cam);
@@ -40,7 +40,6 @@ public class PauseScreen implements Screen {
 
         Label.LabelStyle ls = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.WHITE);
 
-        //creating labels and making ClickListeners
         Label resumeLabel = new Label("RESUME", ls);
         Label quitGameLabel = new Label("QUIT GAME", ls);
         Label quitAndSaveLabel = new Label("QUIT AND SAVE", ls);
@@ -48,7 +47,7 @@ public class PauseScreen implements Screen {
         resumeLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(levelone);
+                game.setScreen(previousScreen);
             }
         });
 
