@@ -168,4 +168,3 @@ public class LevelTwo implements Screen{
         font.dispose();
     }
 }
-
