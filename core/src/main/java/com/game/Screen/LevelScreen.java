@@ -59,6 +59,20 @@ public class LevelScreen implements Screen {
             }
         });
 
+        level2Label.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new LevelTwo(game));
+            }
+        });
+
+        level3Label.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new LevelThree(game));
+            }
+        });
+
         //creating back label
         Label backLabel = new Label("Back", ls);
         backLabel.setPosition(10, Main.V_HEIGHT - 30); // Position in top-left corner

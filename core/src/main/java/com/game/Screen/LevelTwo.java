@@ -25,12 +25,21 @@ public class LevelTwo implements Screen{
     private SpriteBatch sb;
     final LevelTwo curr_level= this;
 
-    private Wood_vrt wood;
-    private Glass glass;
-    private Pig pig;
-    private Bird bird1;
-    private Bird bird2;
+    private Wood_ver wood1;
+    private Wood_ver wood2;
+    private Wood_ver wood3;
+    private Wood_ver wood4;
+    private Wood_ver wood5;
+    private Wood_ver wood6;
+    private Pig pig1;
+    private Pig pig2;
+    private BlackBird bird1;
+    private YellowBird bird2;
+    private RedBird bird3;
     private Slingshot slingshot;
+    private Stone stone1;
+    private Stone stone2;
+    private Stone stone3;
     private Win win;
     private Lose lose;
     private BitmapFont font;
@@ -63,28 +72,47 @@ public class LevelTwo implements Screen{
         stage.addActor(table);
 
         //instantiating each object and positioning them on the screen
-        wood = new Wood_vrt(530, 110);
-        wood.setSize(60, 90);
-        glass = new Glass(490, 200);
-        glass.setSize(140,20);
-        pig = new Pig(535, 220);
-        pig.setSize(50,50);
-        bird1= new Bird(50, 110);
-        bird1.setSize(38, 38);
-        bird2= new Bird(90, 110);
-        bird2.setSize(38, 38);
-        slingshot= new Slingshot(150, 110);
+        wood1 = new Wood_ver(500, 105);
+        wood1.setSize(25, 90);
+        wood2 = new Wood_ver(550, 105);
+        wood2.setSize(25, 90);
+        wood3 = new Wood_ver(500, 205);
+        wood3.setSize(25, 90);
+        wood4 = new Wood_ver(550, 205);
+        wood4.setSize(25, 90);
+        wood5 = new Wood_ver(600, 105);
+        wood5.setSize(25, 90);
+        wood6 = new Wood_ver(650, 105);
+        wood6.setSize(25, 90);
+        pig1 = new Pig(518, 307);
+        pig1.setSize(50,50);
+        pig2 = new Pig(613, 207);
+        pig2.setSize(50,50);
+        bird1= new BlackBird(50, 110);
+        bird1.setSize(40, 40);
+        bird2= new YellowBird(90, 105);
+        bird2.setSize(38, 40);
+        bird3= new RedBird(130, 110);
+        bird3.setSize(38, 38);
+        slingshot= new Slingshot(160, 110);
         slingshot.setSize(70, 110);
+        stone1= new Stone(495, 192);
+        stone1.setSize(80,18);
+        stone2= new Stone(495, 293);
+        stone2.setSize(80,18);
+        stone3= new Stone(600, 192);
+        stone3.setSize(75,18);
         win= new Win(220, 330);
         win.setSize(80, 30);
         lose= new Lose(335, 330);
         lose.setSize(80, 30);
 
+
         //creating ClickListeners for labels
         win.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new WinScreen(game));
+                game.setScreen(new LevelThree(game));
             }
         });
 
@@ -119,12 +147,21 @@ public class LevelTwo implements Screen{
         //drawing all elements
         bird1.draw(sb);
         bird2.draw(sb);
+        bird3.draw(sb);
         slingshot.draw(sb);
-        wood.draw(sb);
-        glass.draw(sb);
-        pig.draw(sb);
+        wood1.draw(sb);
+        wood2.draw(sb);
+        wood3.draw(sb);
+        wood4.draw(sb);
+        wood5.draw(sb);
+        wood6.draw(sb);
+        pig1.draw(sb);
+        pig2.draw(sb);
         win.draw(sb);
         lose.draw(sb);
+        stone1.draw(sb);
+        stone2.draw(sb);
+        stone3.draw(sb);
 
         sb.end();
 
@@ -155,11 +192,20 @@ public class LevelTwo implements Screen{
     public void dispose() {
         //dispose all resources
         bg.dispose();
-        wood.dispose();
-        glass.dispose();
-        pig.dispose();
+        wood1.dispose();
+        wood2.dispose();
+        wood3.dispose();
+        wood4.dispose();
+        wood5.dispose();
+        wood6.dispose();
         bird1.dispose();
         bird2.dispose();
+        bird3.dispose();
+        pig1.dispose();
+        pig2.dispose();
+        stone1.dispose();
+        stone2.dispose();
+        stone3.dispose();
         slingshot.dispose();
         win.dispose();
         lose.dispose();

@@ -28,8 +28,8 @@ public class LevelOne implements Screen{
     private Wood_vrt wood;
     private Glass glass;
     private Pig pig;
-    private Bird bird1;
-    private Bird bird2;
+    private RedBird bird1;
+    private RedBird bird2;
     private Slingshot slingshot;
     private Win win;
     private Lose lose;
@@ -70,9 +70,9 @@ public class LevelOne implements Screen{
         glass.setSize(140,20);
         pig = new Pig(535, 220);
         pig.setSize(50,50);
-        bird1= new Bird(50, 110);
+        bird1= new RedBird(50, 110);
         bird1.setSize(38, 38);
-        bird2= new Bird(90, 110);
+        bird2= new RedBird(90, 110);
         bird2.setSize(38, 38);
         slingshot= new Slingshot(150, 110);
         slingshot.setSize(70, 110);
@@ -85,7 +85,7 @@ public class LevelOne implements Screen{
         win.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new WinScreen(game));
+                game.setScreen(new LevelTwo(game));
             }
         });
 

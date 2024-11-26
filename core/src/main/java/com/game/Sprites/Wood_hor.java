@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Bird extends Sprite {
+public class Wood_hor extends Sprite {
     private Texture texture;
 
-    public Bird(float x, float y) {
-        texture = new Texture("RedBird.png"); //loading picture from assets
+    public Wood_hor(float x, float y) {
+        texture = new Texture("wood_hor.png"); //loading picture from assets
         setTexture(texture);
         setPosition(x,y);
     }
