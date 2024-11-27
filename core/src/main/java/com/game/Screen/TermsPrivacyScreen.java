@@ -2,6 +2,7 @@ package com.game.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -23,6 +24,7 @@ public class TermsPrivacyScreen implements Screen {
     private Viewport vp;
     private Stage stage;
     private BitmapFont font;
+    private Sound clickSound;
 
     public TermsPrivacyScreen(final Main game) {
         this.game = game;
@@ -32,6 +34,8 @@ public class TermsPrivacyScreen implements Screen {
         stage = new Stage(vp, game.batch);
         font = new BitmapFont();
         font.getData().setScale(0.8f);
+
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
 
         Label.LabelStyle ls = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.BLACK);
 
@@ -60,6 +64,7 @@ public class TermsPrivacyScreen implements Screen {
         homeLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new HomeScreen(game)); //clicking will display home screen
             }
         });
@@ -104,5 +109,6 @@ public class TermsPrivacyScreen implements Screen {
         bg.dispose();
         stage.dispose();
         font.dispose();
+        clickSound.play();
     }
 }

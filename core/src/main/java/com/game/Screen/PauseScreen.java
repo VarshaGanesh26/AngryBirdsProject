@@ -2,6 +2,7 @@ package com.game.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,7 +23,8 @@ public class PauseScreen implements Screen {
     private Viewport vp;
     private Stage stage;
     private BitmapFont font;
-    private Screen previousScreen;  // Generic Screen reference instead of specific level
+    private Screen previousScreen; // Generic Screen reference instead of specific level
+    private Sound clickSound;
 
     public PauseScreen(final Main game, Screen previousScreen) {
         this.game = game;
@@ -33,6 +35,8 @@ public class PauseScreen implements Screen {
         stage = new Stage(vp, game.batch);
         font = new BitmapFont();
         font.getData().setScale(2.0f);
+
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
 
         Table table = new Table();
         table.center();
@@ -47,6 +51,7 @@ public class PauseScreen implements Screen {
         resumeLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(previousScreen);
             }
         });
@@ -54,6 +59,7 @@ public class PauseScreen implements Screen {
         quitGameLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new HomeScreen(game));
             }
         });
@@ -61,6 +67,7 @@ public class PauseScreen implements Screen {
         quitAndSaveLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new HomeScreen(game));
             }
         });
@@ -111,5 +118,6 @@ public class PauseScreen implements Screen {
         bg.dispose();
         stage.dispose();
         font.dispose();
+        clickSound.dispose();
     }
 }

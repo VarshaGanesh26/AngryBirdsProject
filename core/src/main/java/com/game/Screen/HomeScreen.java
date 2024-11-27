@@ -2,6 +2,7 @@ package com.game.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,6 +26,7 @@ public class HomeScreen implements Screen {
     private Viewport vp;
     private Stage stage;
     private BitmapFont font;
+    private Sound clickSound;
 
     public HomeScreen(final Main game) {
         this.game = game;
@@ -34,6 +36,8 @@ public class HomeScreen implements Screen {
         stage = new Stage(vp, game.batch);
         font = new BitmapFont();
         font.getData().setScale(2.0f);
+
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
 
         // Create a TextButtonStyle
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
@@ -58,6 +62,7 @@ public class HomeScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
+                clickSound.play();
                 game.setScreen(new PlayScreen(game));
             }
         });
@@ -65,6 +70,7 @@ public class HomeScreen implements Screen {
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
+                clickSound.play();
                 game.setScreen(new SettingsScreen(game));
             }
         });
@@ -72,6 +78,7 @@ public class HomeScreen implements Screen {
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
+                clickSound.play();
                 Gdx.app.exit();
             }
         });
@@ -158,5 +165,6 @@ public class HomeScreen implements Screen {
     public void dispose() {
         stage.dispose();
         font.dispose();
+        clickSound.dispose();
     }
 }

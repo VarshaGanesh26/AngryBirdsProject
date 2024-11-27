@@ -2,6 +2,7 @@ package com.game.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,6 +26,7 @@ public class SettingsScreen implements Screen {
     private BitmapFont font;
     private boolean flag = false;
     private Label volumeLabel;
+    private Sound clickSound;
 
     public SettingsScreen(final Main game) {
         this.game = game;
@@ -39,6 +41,7 @@ public class SettingsScreen implements Screen {
         table.center();
         table.setFillParent(true);
 
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
         Label.LabelStyle ls = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.WHITE);
 
         // Creating labels
@@ -50,6 +53,7 @@ public class SettingsScreen implements Screen {
         termsLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new TermsPrivacyScreen(game));
             }
         });
@@ -58,6 +62,7 @@ public class SettingsScreen implements Screen {
         volumeLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 toggleVolume();
             }
         });
@@ -66,6 +71,7 @@ public class SettingsScreen implements Screen {
         backLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new HomeScreen(game));
             }
         });
@@ -154,5 +160,6 @@ public class SettingsScreen implements Screen {
         bg.dispose();
         stage.dispose();
         font.dispose();
+        clickSound.dispose();
     }
 }
