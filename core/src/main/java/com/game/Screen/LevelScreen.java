@@ -2,6 +2,7 @@ package com.game.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,6 +23,7 @@ public class LevelScreen implements Screen {
     private Viewport vp;
     private Stage stage;
     private BitmapFont font;
+    private Sound clickSound;
 
     public LevelScreen(final Main game) {
         this.game = game;
@@ -31,6 +33,8 @@ public class LevelScreen implements Screen {
         stage = new Stage(vp, game.batch);
         font = new BitmapFont();
         font.getData().setScale(2.0f);
+
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
 
         Table table = new Table();
         table.center();
@@ -55,6 +59,7 @@ public class LevelScreen implements Screen {
         level1Label.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new LevelOne(game));
             }
         });
@@ -62,6 +67,7 @@ public class LevelScreen implements Screen {
         level2Label.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new LevelTwo(game));
             }
         });
@@ -69,14 +75,8 @@ public class LevelScreen implements Screen {
         level3Label.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new LevelThree(game));
-            }
-        });
-
-        level2Label.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LevelTwo(game));
             }
         });
 
@@ -86,6 +86,7 @@ public class LevelScreen implements Screen {
         backLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new HomeScreen(game));
             }
         });

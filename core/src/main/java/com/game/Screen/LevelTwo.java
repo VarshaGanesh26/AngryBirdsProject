@@ -2,6 +2,7 @@ package com.game.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -23,6 +24,7 @@ public class LevelTwo implements Screen{
     private Viewport vp;
     private Stage stage;
     private SpriteBatch sb;
+    private Sound clickSound;
     final LevelTwo curr_level= this;
 
     private Wood_ver wood1;
@@ -54,6 +56,8 @@ public class LevelTwo implements Screen{
         stage= new Stage(vp, game.batch);
         font= new BitmapFont();
 
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
+
         Table table= new Table();
         table.top().left();
         table.setFillParent(true);
@@ -64,6 +68,7 @@ public class LevelTwo implements Screen{
         pauseLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new PauseScreen(game, curr_level));
             }
         });
@@ -212,5 +217,6 @@ public class LevelTwo implements Screen{
         sb.dispose();
         stage.dispose();
         font.dispose();
+        clickSound.dispose();
     }
 }
