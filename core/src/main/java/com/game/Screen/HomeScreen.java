@@ -8,12 +8,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.game.Main;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.graphics.Pixmap;
 
 public class HomeScreen implements Screen {
     private Main game;
@@ -32,45 +35,87 @@ public class HomeScreen implements Screen {
         font = new BitmapFont();
         font.getData().setScale(2.0f);
 
-        Table table = new Table();
-        table.bottom();
-        table.setFillParent(true);
+        // Create a TextButtonStyle
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = font;
 
-        Label.LabelStyle ls = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.WHITE);
-        //creating labels
-        Label playLabel = new Label("PLAY", ls);
-        Label settingsLabel = new Label("SETTINGS", ls);
-        Label quitLabel = new Label("QUIT", ls);
+        // Create button backgrounds using rounded rectangles
+        buttonStyle.up = createRoundedDrawable(Color.BLACK);
+        buttonStyle.down = createRoundedDrawable(Color.DARK_GRAY);
+        buttonStyle.over = createRoundedDrawable(Color.LIGHT_GRAY);
 
-        //adding ClickListeners for labels
-        playLabel.addListener(new ClickListener() {
+        // Create buttons with white text
+        TextButton playButton = new TextButton("PLAY", buttonStyle);
+        TextButton settingsButton = new TextButton("SETTINGS", buttonStyle);
+        TextButton quitButton = new TextButton("QUIT", buttonStyle);
+
+        // Set text color to white
+        playButton.getLabel().setColor(Color.WHITE);
+        settingsButton.getLabel().setColor(Color.WHITE);
+        quitButton.getLabel().setColor(Color.WHITE);
+
+        // Adding ClickListeners for buttons
+        playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 game.setScreen(new PlayScreen(game));
             }
         });
 
-        settingsLabel.addListener(new ClickListener() {
+        settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 game.setScreen(new SettingsScreen(game));
             }
         });
 
-        quitLabel.addListener(new ClickListener() {
+        quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 Gdx.app.exit();
             }
         });
 
-        //aligning table with labels
-        table.add(playLabel).padBottom(20).row();
-        table.add(settingsLabel).padBottom(20).row();
-        table.add(quitLabel);
+        // Aligning table with buttons
+        Table table = new Table();
+        table.bottom();
+        table.setFillParent(true);
+        // Adjust padding to make buttons closer together
+        table.add(playButton).pad(5); // Reduced padding
+        table.row();
+        table.add(settingsButton).pad(5); // Reduced padding
+        table.row();
+        table.add(quitButton).pad(5); // Reduced padding
 
-        //adding table to stage
         stage.addActor(table);
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    private TextureRegionDrawable createRoundedDrawable(Color color) {
+        int width = 160; // Reduced width of the button
+        int height = 40; // Reduced height of the button
+        int radius = 10; // Radius for rounded corners
+
+        // Create a Pixmap for the button background
+        Pixmap roundedPixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        roundedPixmap.setColor(color);
+        roundedPixmap.fill();
+
+        // Draw rounded corners
+        roundedPixmap.setColor(color);
+        roundedPixmap.fillCircle(radius, radius, radius); // Top-left
+        roundedPixmap.fillCircle(width - radius, radius, radius); // Top-right
+        roundedPixmap.fillCircle(radius, height - radius, radius); // Bottom-left
+        roundedPixmap.fillCircle(width - radius, height - radius, radius); // Bottom-right
+
+        // Draw the edges
+        roundedPixmap.fillRectangle(radius, 0, width - 2 * radius , height); // Middle section
+        roundedPixmap.fillRectangle(0, radius, width, height - 2 * radius); // Middle section
+
+        Texture texture = new Texture(roundedPixmap);
+        roundedPixmap.dispose(); // Dispose of the pixmap to free memory
+
+        return new TextureRegionDrawable(texture);
     }
 
     @Override
@@ -81,14 +126,14 @@ public class HomeScreen implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1); //setting bg color to black
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);  //clearing color buffer
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //clearing color buffer
 
         //implementing spriteBatch
         game.batch.begin();
         game.batch.draw(bg, 0, 0, Main.V_WIDTH, Main.V_HEIGHT);
         game.batch.end();
 
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
 
@@ -98,18 +143,19 @@ public class HomeScreen implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 
     @Override
     public void dispose() {
-        //disposing resources
-        bg.dispose();
         stage.dispose();
         font.dispose();
     }

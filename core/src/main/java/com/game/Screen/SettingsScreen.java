@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -18,7 +19,7 @@ import com.game.Main;
 public class SettingsScreen implements Screen {
     private Main game;
     private Texture bg;
-    private OrthographicCamera cam ;
+    private OrthographicCamera cam;
     private Viewport vp;
     private Stage stage;
     private BitmapFont font;
@@ -34,20 +35,18 @@ public class SettingsScreen implements Screen {
         font = new BitmapFont();
         font.getData().setScale(2.0f);
 
-//        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("theme.mp3"));
-//        backgroundMusic.setLooping(true);
-
         Table table = new Table();
         table.center();
         table.setFillParent(true);
 
         Label.LabelStyle ls = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.WHITE);
 
-        //creating labels
+        // Creating labels
         Label termsLabel = new Label("T&C", ls);
         volumeLabel = new Label("VOLUME: off", ls);
         Label backLabel = new Label("EXIT", ls);
 
+        addHoverListener(termsLabel);
         termsLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -55,6 +54,7 @@ public class SettingsScreen implements Screen {
             }
         });
 
+        addHoverListener(volumeLabel);
         volumeLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -62,6 +62,7 @@ public class SettingsScreen implements Screen {
             }
         });
 
+        addHoverListener(backLabel);
         backLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -76,26 +77,41 @@ public class SettingsScreen implements Screen {
         stage.addActor(table);
     }
 
-    //for volume settings
+    // For volume settings
     private void toggleVolume() {
         flag = !flag;
         if (flag) {
-            volumeLabel.setText("Volume: On"); //displayed on screen
-            game.bgm.setVolume(1.0f); //increasing volume
+            volumeLabel.setText("Volume: On");
+            game.bgm.setVolume(1.0f);
             if (!game.bgm.isPlaying()) {
-                game.bgm.play();  //if not already on, music will play
+                game.bgm.play();
             }
         } else {
             volumeLabel.setText("Volume: Off");
-            game.bgm.setVolume(0.0f);  //muting music
+            game.bgm.setVolume(0.0f);
             game.bgm.stop();
         }
     }
 
+    private void addHoverListener(Label label) {
+        label.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                label.setColor(com.badlogic.gdx.graphics.Color.RED); // Change color on click
+            }
+
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                label.setColor(com.badlogic.gdx.graphics.Color.GREEN); // Change color on hover
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                label.setColor(com.badlogic.gdx.graphics.Color.WHITE); // Reset color on exit
+            }
+        });
+    }
 
     @Override
     public void show() {
-        //this is actually displayed on screen
         Gdx.input.setInputProcessor(stage);
         if (game.bgm.isPlaying()) {
             flag = true;
@@ -108,7 +124,7 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1); //color set to white
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();

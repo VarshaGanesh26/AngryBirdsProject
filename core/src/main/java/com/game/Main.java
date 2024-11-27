@@ -9,6 +9,7 @@ import com.game.Screen.HomeScreen;
 public class Main extends Game {
     public static final int V_WIDTH=800; //fixing width of screen
     public static final int V_HEIGHT =500; //fixing height of screen
+    public static final int PPM = 100;
     public SpriteBatch batch;
     public Music bgm;
 
