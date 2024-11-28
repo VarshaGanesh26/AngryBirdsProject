@@ -581,7 +581,7 @@ public class LevelTwo implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
 
-        world.step(1/60f, 6, 2);
+        world.step(1 / 60f, 6, 2);
         updatePhysicsSprites();
 
         if (isBirdOnGround() && !isExploding) {
@@ -611,46 +611,37 @@ public class LevelTwo implements Screen {
         stone2.draw(sb);
         stone3.draw(sb);
 
+        // Draw pigs
         if (!pig1Dead) {
             pig1.draw(sb);
-        } else {
-            // Draw explosion for pig1 if it just died
-            sb.draw(explosionTexture,
-                pig1.getX() - 20, pig1.getY() - 20,
-                pig1.getWidth() + 40, pig1.getHeight() + 40);
         }
-
         if (!pig2Dead) {
             pig2.draw(sb);
-        } else {
-            // Draw explosion for pig2 if it just died
-            sb.draw(explosionTexture,
-                pig2.getX() - 20, pig2.getY() - 20,
-                pig2.getWidth() + 40, pig2.getHeight() + 40);
-        }
-
-        // Draw pigs unless exploding
-        if (!isExploding) {
-            pig1.draw(sb);
-            pig2.draw(sb);
-        } else {
-            explosionTimer += delta;
-            sb.draw(explosionTexture,
-                pig1.getX() - 20, pig1.getY() - 20,
-                pig1.getWidth() + 40, pig1.getHeight() + 40);
-            sb.draw(explosionTexture,
-                pig2.getX() - 20, pig2.getY() - 20,
-                pig2.getWidth() + 40, pig2.getHeight() + 40);
-
-            if (explosionTimer >= EXPLOSION_DURATION) {
-                game.setScreen(new LevelThree(game));
-            }
         }
 
         // Draw active bird and queue
         activeBird.draw(sb);
         for (Bird bird : birdQueue) {
             bird.draw(sb);
+        }
+
+        // Draw explosions on top of pigs
+        if (pig1Dead) {
+            sb.draw(explosionTexture,
+                pig1.getX() - 20, pig1.getY() - 20,
+                pig1.getWidth() + 40, pig1.getHeight() + 40);
+        }
+        if (pig2Dead) {
+            sb.draw(explosionTexture,
+                pig2.getX() - 20, pig2.getY() - 20,
+                pig2.getWidth() + 40, pig2.getHeight() + 40);
+        }
+
+        if (isExploding) {
+            explosionTimer += delta;
+            if (explosionTimer >= EXPLOSION_DURATION) {
+                game.setScreen(new LevelThree(game));
+            }
         }
 
         for (Body body : bodiesToMakeDynamic) {
@@ -667,7 +658,7 @@ public class LevelTwo implements Screen {
         drawTrajectory();
         debugRenderer.render(world, cam.combined.scl(PPM));
 
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
 
