@@ -1,5 +1,6 @@
 package com.game.Screen;
 
+import com.game.Sprites.BlackBird;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;

@@ -319,7 +319,7 @@ public class LevelOne implements Screen {
 
         Vector2 launchDir = anchor.sub(birdCenter);  // Corrected direction: from bird to slingshot
         float dragDistance = Math.min(launchDir.len(), 1f); // Limit drag distance to avoid excessive force
-        float launchPower = dragDistance * 6f;  // Scale the launch power dynamically
+        float launchPower = dragDistance * 2f;  // Scale the launch power dynamically
 
         Vector2 impulse = launchDir.nor().scl(launchPower); // Apply impulse towards the target
         birdBody.applyLinearImpulse(impulse, birdBody.getWorldCenter(), true);
@@ -550,6 +550,9 @@ public class LevelOne implements Screen {
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
         stage.draw();
+
+
+
     }
 
     @Override

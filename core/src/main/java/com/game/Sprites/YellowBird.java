@@ -1,25 +1,15 @@
 package com.game.Sprites;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class YellowBird extends Sprite {
-    private Texture texture;
-
+public class YellowBird extends Bird {
     public YellowBird(float x, float y) {
-        texture = new Texture("YellowBird.png"); //loading picture from assets
-        setTexture(texture);
-        setPosition(x,y);
+        super(x, y, "YellowBird.png");
     }
 
-    public void draw(SpriteBatch spritebatch){
-        spritebatch.draw(texture, getX(), getY(), getWidth(), getHeight()); //method to set appropriate position
+    @Override
+    public void draw(SpriteBatch sb) {
+        sb.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
-
-    public void dispose() {
-        texture.dispose();
-    }
-
-
 }
+
