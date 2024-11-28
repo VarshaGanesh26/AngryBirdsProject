@@ -34,7 +34,7 @@ public class LevelOne implements Screen {
 
     private Wood_vrt wood;
     private Glass glass;
-    private Pig pig;
+    private MediumPig pig;
     private RedBird activeBird;
     private Slingshot slingshot;
     private Win win;
@@ -109,7 +109,7 @@ public class LevelOne implements Screen {
         wood.setSize(60, 90);
         glass = new Glass(490, GROUND_HEIGHT + 90);
         glass.setSize(140, 20);
-        pig = new Pig(535, GROUND_HEIGHT + 90 + 20);
+        pig = new MediumPig(535, GROUND_HEIGHT + 90 + 20);
         pig.setSize(50, 50);
 
         activeBird = new RedBird(185, 210);

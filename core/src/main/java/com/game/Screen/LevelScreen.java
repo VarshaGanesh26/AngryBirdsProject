@@ -27,7 +27,7 @@ public class LevelScreen implements Screen {
 
     public LevelScreen(final Main game) {
         this.game = game;
-        bg = new Texture("background.jpg");
+        bg = new Texture("background-2.jpg");
         cam = new OrthographicCamera();
         vp = new FitViewport(Main.V_WIDTH, Main.V_HEIGHT, cam);
         stage = new Stage(vp, game.batch);

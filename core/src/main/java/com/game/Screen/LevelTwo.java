@@ -38,7 +38,7 @@ public class LevelTwo implements Screen {
     // Game objects
     private Wood_ver wood1, wood2, wood3, wood4, wood5, wood6;
     private Stone stone1, stone2, stone3;
-    private Pig pig1, pig2;
+    private MediumPig pig1, pig2;
     private BlackBird blackBird;
     private YellowBird yellowBird;
     private RedBird redBird;
@@ -145,9 +145,9 @@ public class LevelTwo implements Screen {
         stone3.setSize(75, 18);
 
         // Initialize pigs
-        pig1 = new Pig(518, 307);
+        pig1 = new MediumPig(518, 307);
         pig1.setSize(50, 50);
-        pig2 = new Pig(613, 207);
+        pig2 = new MediumPig(613, 207);
         pig2.setSize(50, 50);
 
         // Initialize birds
@@ -270,7 +270,7 @@ public class LevelTwo implements Screen {
         return stoneBody;
     }
 
-    private Body createPigBody(Pig pig, String identifier) {
+    private Body createPigBody(MediumPig pig, String identifier) {
         BodyDef pigDef = new BodyDef();
         pigDef.type = BodyDef.BodyType.DynamicBody;
         pigDef.position.set((pig.getX() + pig.getWidth()/2) / PPM,
@@ -426,7 +426,7 @@ public class LevelTwo implements Screen {
             stones[i].setRotation((float) Math.toDegrees(body.getAngle()));
         }
 
-        Pig[] pigs = {pig1, pig2};
+        MediumPig[] pigs = {pig1, pig2};
         for (int i = 0; i < pigs.length; i++) {
             Body body = pigBodies[i];
             if (body != null && !isExploding) {
