@@ -2,6 +2,7 @@ package com.game.Screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -40,6 +41,7 @@ public class LevelOne implements Screen {
     private Win win;
     private Lose lose;
     private BitmapFont font;
+    private Sound clickSound;
     private boolean isExploding = false;
     private float explosionTimer = 0;
     private final float EXPLOSION_DURATION = 0.5f;
@@ -88,6 +90,8 @@ public class LevelOne implements Screen {
         trajectoryRenderer = new ShapeRenderer();
         slingshotAnchor = new Vector2(185, 210);
 
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
+
         Table table = new Table();
         table.top().left();
         table.setFillParent(true);
@@ -97,6 +101,7 @@ public class LevelOne implements Screen {
         pauseLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.setScreen(new PauseScreen(game, curr_level));
             }
         });
@@ -319,7 +324,7 @@ public class LevelOne implements Screen {
 
         Vector2 launchDir = anchor.sub(birdCenter);  // Corrected direction: from bird to slingshot
         float dragDistance = Math.min(launchDir.len(), 1f); // Limit drag distance to avoid excessive force
-        float launchPower = dragDistance * 2f;  // Scale the launch power dynamically
+        float launchPower = dragDistance * 4f;  // Scale the launch power dynamically
 
         Vector2 impulse = launchDir.nor().scl(launchPower); // Apply impulse towards the target
         birdBody.applyLinearImpulse(impulse, birdBody.getWorldCenter(), true);
@@ -550,9 +555,6 @@ public class LevelOne implements Screen {
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
         stage.draw();
-
-
-
     }
 
     @Override
@@ -592,5 +594,6 @@ public class LevelOne implements Screen {
         explosionTexture.dispose();
         world.dispose();
         debugRenderer.dispose();
+        clickSound.dispose();
     }
 }
