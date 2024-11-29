@@ -210,14 +210,14 @@ public class LevelThree implements Screen {
         win.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new WinScreen(game));
+                game.setScreen(new WinScreen(game , curr_level , 3));
             }
         });
 
         lose.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LoseScreen(game));
+                game.setScreen(new LoseScreen(game , curr_level , 3));
             }
         });
     }
@@ -799,7 +799,7 @@ public class LevelThree implements Screen {
             activeBird.setPosition(185, 210);
             createBirdBody();
         } else {
-            game.setScreen(new LoseScreen(game));
+            game.setScreen(new LoseScreen(game , curr_level , 3));
         }
 
         birdLaunched = false;
@@ -873,7 +873,7 @@ public class LevelThree implements Screen {
         if (isExploding) {
             explosionTimer += delta;
             if (explosionTimer >= EXPLOSION_DURATION) {
-                game.setScreen(new WinScreen(game));
+                game.setScreen(new WinScreen(game , curr_level , 3));
             }
         }
 
@@ -965,5 +965,3 @@ public class LevelThree implements Screen {
         trajectoryRenderer.dispose();
     }
 }
-
-

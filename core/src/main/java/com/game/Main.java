@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.Screen.HomeScreen;
+import com.game.Screen.LevelThree;
 
 public class Main extends Game {
     public static final int V_WIDTH=800; //fixing width of screen

@@ -130,6 +130,8 @@ public class HomeScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
+
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1); //setting bg color to black
@@ -143,6 +145,7 @@ public class HomeScreen implements Screen {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
+
 
     @Override
     public void resize(int width, int height) {

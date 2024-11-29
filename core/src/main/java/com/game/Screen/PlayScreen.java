@@ -60,7 +60,20 @@ public class PlayScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 clickSound.play();
-                game.setScreen(new LevelOne(game));
+                GameState state = GameState.loadGame("savegame.dat");
+                if (state != null) {
+                    Screen levelScreen = new LevelOne(game); // Default initialization
+                    if (state.currentLevel == 1) {
+                        levelScreen = new LevelOne(game);
+                        ((LevelOne)levelScreen).loadGameState(state);
+                    } else if (state.currentLevel == 2) {
+                        levelScreen = new LevelTwo(game);
+                        ((LevelTwo)levelScreen).loadGameState(state);
+                    }
+                    game.setScreen(levelScreen);
+                } else {
+                    game.setScreen(new HomeScreen(game));
+                }
             }
         });
 
@@ -120,4 +133,3 @@ public class PlayScreen implements Screen {
         clickSound.dispose();
     }
 }
-

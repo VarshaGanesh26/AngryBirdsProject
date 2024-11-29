@@ -24,7 +24,7 @@ import com.game.Sprites.*;
 import java.util.ArrayList;
 
 public class LevelTwo implements Screen {
-    private static final float PPM = 100f;
+    public static final float PPM = 100f;
     private static final float GROUND_HEIGHT = 110;
     private Main game;
     private Texture bg;
@@ -576,6 +576,97 @@ public class LevelTwo implements Screen {
             activeBird.getY() + activeBird.getHeight()/2) < 50;
     }
 
+    public GameState captureGameState() {
+        GameState state = new GameState();
+        state.currentLevel = 2;  // Explicitly set level 2
+        state.birdX = activeBird.getX();
+        state.birdY = activeBird.getY();
+        state.birdLaunched = birdLaunched;
+        state.activeBirdType = activeBird instanceof BlackBird ? "black" :
+            activeBird instanceof YellowBird ? "yellow" : "red";
+
+        state.pigStates = new ArrayList<>();
+        state.pigStates.add(new GameState.PigState(pig1.getX(), pig1.getY(), pig1Dead, "medium", "pig1"));
+        state.pigStates.add(new GameState.PigState(pig2.getX(), pig2.getY(), pig2Dead, "medium", "pig2"));
+
+        state.structureStates = new ArrayList<>();
+        for (int i = 0; i < woodBodies.length; i++) {
+            state.structureStates.add(new GameState.StructureState(woodBodies[i].getPosition().x * PPM,
+                woodBodies[i].getPosition().y * PPM, (float)Math.toDegrees(woodBodies[i].getAngle()),
+                "wood", "wood" + (i + 1)));
+        }
+
+        state.remainingBirds = new ArrayList<>();
+        for (Bird bird : birdQueue) {
+            String type = bird instanceof BlackBird ? "black" :
+                bird instanceof YellowBird ? "yellow" : "red";
+            state.remainingBirds.add(new GameState.BirdState(bird.getX(), bird.getY(), type));
+        }
+
+        return state;
+    }
+
+    public void loadGameState(GameState state) {
+        // Reset active bird
+        activeBird = createBirdFromType(state.activeBirdType, state.birdX, state.birdY);
+        birdLaunched = state.birdLaunched;
+        if (birdBody != null) world.destroyBody(birdBody);
+        createBirdBody();
+
+        // Reset pigs
+        pig1Dead = state.pigStates.get(0).isDead;
+        pig2Dead = state.pigStates.get(1).isDead;
+        pig1.setPosition(state.pigStates.get(0).x, state.pigStates.get(0).y);
+        pig2.setPosition(state.pigStates.get(1).x, state.pigStates.get(1).y);
+
+        // Reset structures
+        for (GameState.StructureState structState : state.structureStates) {
+            if (structState.type.equals("wood")) {
+                int index = Integer.parseInt(structState.identifier.replace("wood", "")) - 1;
+                Wood_ver[] woods = {wood1, wood2, wood3, wood4, wood5, wood6};
+                woods[index].setPosition(structState.x, structState.y);
+                woods[index].setRotation(structState.rotation);
+                woodBodies[index].setTransform(structState.x / PPM, structState.y / PPM,
+                    (float)Math.toRadians(structState.rotation));
+            } else if (structState.type.equals("stone")) {
+                int index = Integer.parseInt(structState.identifier.replace("stone", "")) - 1;
+                Stone[] stones = {stone1, stone2, stone3};
+                stones[index].setPosition(structState.x, structState.y);
+                stones[index].setRotation(structState.rotation);
+                stoneBodies[index].setTransform(structState.x / PPM, structState.y / PPM,
+                    (float)Math.toRadians(structState.rotation));
+            }
+        }
+
+        // Reset bird queue
+        birdQueue.clear();
+        for (GameState.BirdState birdState : state.remainingBirds) {
+            Bird bird = createBirdFromType(birdState.type, birdState.x, birdState.y);
+            birdQueue.add(bird);
+        }
+    }
+
+    private Bird createBirdFromType(String type, float x, float y) {
+        Bird bird;
+        switch (type.toLowerCase()) {
+            case "black":
+                bird = new BlackBird(x, y);
+                bird.setSize(40, 40);
+                break;
+            case "yellow":
+                bird = new YellowBird(x, y);
+                bird.setSize(38, 40);
+                break;
+            case "red":
+                bird = new RedBird(x, y);
+                bird.setSize(38, 38);
+                break;
+            default:
+                bird = new RedBird(x, y);
+                bird.setSize(38, 38);
+        }
+        return bird;
+    }
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);

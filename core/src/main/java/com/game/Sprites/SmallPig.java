@@ -1,25 +1,14 @@
 package com.game.Sprites;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-public class SmallPig extends Sprite {
-    private Texture texture;
+public class SmallPig extends BasePig {
 
     public SmallPig(float x, float y) {
-        texture = new Texture("Pig.png"); //loading picture from assets
-        setTexture(texture);
-        setPosition(x,y);
+        super("Pig.png", x, y); // Call the superclass constructor with the texture path
     }
 
-    public void draw(SpriteBatch spritebatch){
-        spritebatch.draw(texture, getX(), getY(), getWidth(), getHeight()); //method to set appropriate position
+    @Override
+    public void takeDamage() {
+        // Implement the behavior when KingPin takes damage
+        System.out.println("KingPin takes damage!");
     }
-
-    public void dispose() {
-        texture.dispose();
-    }
-
-
 }

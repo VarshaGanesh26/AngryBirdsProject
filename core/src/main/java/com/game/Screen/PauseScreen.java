@@ -68,9 +68,23 @@ public class PauseScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 clickSound.play();
+
+                GameState state = null;
+                if (previousScreen instanceof LevelOne) {
+                    state = ((LevelOne) previousScreen).captureGameState();
+                } else if (previousScreen instanceof LevelTwo) {
+                    state = ((LevelTwo) previousScreen).captureGameState();
+                }
+
+                if (state != null) {
+                    GameState.saveGame(state, "savegame.dat");
+                }
+
                 game.setScreen(new HomeScreen(game));
             }
         });
+
+
 
         table.add(resumeLabel).padBottom(20).row();
         table.add(quitGameLabel).padBottom(20).row();
