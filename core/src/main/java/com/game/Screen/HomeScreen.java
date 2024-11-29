@@ -39,21 +39,17 @@ public class HomeScreen implements Screen {
 
         clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
 
-        // Create a TextButtonStyle
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.font = font;
 
-        // Create button backgrounds using rounded rectangles
         buttonStyle.up = createRoundedDrawable(Color.BLACK);
         buttonStyle.down = createRoundedDrawable(Color.DARK_GRAY);
         buttonStyle.over = createRoundedDrawable(Color.LIGHT_GRAY);
 
-        // Create buttons with white text
         TextButton playButton = new TextButton("PLAY", buttonStyle);
         TextButton settingsButton = new TextButton("SETTINGS", buttonStyle);
         TextButton quitButton = new TextButton("QUIT", buttonStyle);
 
-        // Set text color to white
         playButton.getLabel().setColor(Color.WHITE);
         settingsButton.getLabel().setColor(Color.WHITE);
         quitButton.getLabel().setColor(Color.WHITE);
@@ -83,14 +79,12 @@ public class HomeScreen implements Screen {
             }
         });
 
-        // Aligning table with buttons
         Table table = new Table();
         table.bottom();
         table.setFillParent(true);
-        // Adjust padding to make buttons closer together
-        table.add(playButton).pad(5); // Reduced padding
+        table.add(playButton).pad(5);
         table.row();
-        table.add(settingsButton).pad(5); // Reduced padding
+        table.add(settingsButton).pad(5);
         table.row();
         table.add(quitButton).pad(5); // Reduced padding
 
@@ -99,28 +93,18 @@ public class HomeScreen implements Screen {
     }
 
     private TextureRegionDrawable createRoundedDrawable(Color color) {
-        int width = 160; // Reduced width of the button
-        int height = 40; // Reduced height of the button
-        int radius = 10; // Radius for rounded corners
+        int width = 160;
+        int height = 40;
+        int radius = 10;
 
-        // Create a Pixmap for the button background
         Pixmap roundedPixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         roundedPixmap.setColor(color);
         roundedPixmap.fill();
 
-        // Draw rounded corners
         roundedPixmap.setColor(color);
-        roundedPixmap.fillCircle(radius, radius, radius); // Top-left
-        roundedPixmap.fillCircle(width - radius, radius, radius); // Top-right
-        roundedPixmap.fillCircle(radius, height - radius, radius); // Bottom-left
-        roundedPixmap.fillCircle(width - radius, height - radius, radius); // Bottom-right
-
-        // Draw the edges
-        roundedPixmap.fillRectangle(radius, 0, width - 2 * radius , height); // Middle section
-        roundedPixmap.fillRectangle(0, radius, width, height - 2 * radius); // Middle section
 
         Texture texture = new Texture(roundedPixmap);
-        roundedPixmap.dispose(); // Dispose of the pixmap to free memory
+        roundedPixmap.dispose();
 
         return new TextureRegionDrawable(texture);
     }
@@ -129,8 +113,6 @@ public class HomeScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
     }
-
-
 
     @Override
     public void render(float delta) {

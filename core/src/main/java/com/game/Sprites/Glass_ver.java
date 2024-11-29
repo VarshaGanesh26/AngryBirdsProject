@@ -8,13 +8,13 @@ public class Glass_ver extends Sprite {
     private Texture texture;
 
     public Glass_ver(float x, float y) {
-        texture = new Texture("glass_ver.png"); //loading picture from assets
+        texture = new Texture("glass_ver.png");
         setTexture(texture);
         setPosition(x,y);
     }
 
     public void draw(SpriteBatch spritebatch){
-        spritebatch.draw(texture, getX(), getY(), getWidth(), getHeight()); //method to set appropriate position
+        spritebatch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
 
     public void dispose() {

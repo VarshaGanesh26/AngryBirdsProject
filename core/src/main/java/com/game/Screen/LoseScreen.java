@@ -58,12 +58,10 @@ public class LoseScreen implements Screen {
         homeBtn = new TextButton("Home", style);
         retryBtn = new TextButton("Try Again", style);
 
-        // Calculate center positions
         float centerY = Main.V_HEIGHT / 2;
-        float totalWidth = (BUTTON_WIDTH * 2) + 40; // Width of two buttons plus spacing
+        float totalWidth = (BUTTON_WIDTH * 2) + 40;
         float startX = (Main.V_WIDTH - totalWidth) / 2;
 
-        // Position buttons
         homeBtn.setBounds(startX, centerY - BUTTON_HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT);
         retryBtn.setBounds(startX + BUTTON_WIDTH + 40, centerY - BUTTON_HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT);
 
@@ -103,7 +101,6 @@ public class LoseScreen implements Screen {
         shapeRenderer.setProjectionMatrix(viewport.getCamera().combined);
         shapeRenderer.setColor(BUTTON_COLOR);
 
-        // Draw ovals for both buttons
         for (TextButton button : new TextButton[]{homeBtn, retryBtn}) {
             float centerX = button.getX() + BUTTON_WIDTH/2;
             float centerY = button.getY() + BUTTON_HEIGHT/2;

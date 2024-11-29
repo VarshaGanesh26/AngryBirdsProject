@@ -1,13 +1,11 @@
 package com.game.Screen;
 
-import com.badlogic.gdx.math.Vector2;
 import java.io.*;
 import java.util.ArrayList;
 
 public class GameState implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    // Game state data
     public int currentLevel;
     public float birdX;
     public float birdY;
@@ -17,14 +15,13 @@ public class GameState implements Serializable {
     public ArrayList<StructureState> structureStates;
     public ArrayList<BirdState> remainingBirds;
 
-    // Inner classes for storing object states
     public static class PigState implements Serializable {
         private static final long serialVersionUID = 1L;
         public float x;
         public float y;
         public boolean isDead;
         public String type;
-        public String identifier; // For tracking individual pigs
+        public String identifier;
 
         public PigState(float x, float y, boolean isDead, String type, String identifier) {
             this.x = x;
@@ -41,7 +38,7 @@ public class GameState implements Serializable {
         public float y;
         public float rotation;
         public String type;
-        public String identifier; // For tracking individual structures
+        public String identifier;
 
         public StructureState(float x, float y, float rotation, String type, String identifier) {
             this.x = x;

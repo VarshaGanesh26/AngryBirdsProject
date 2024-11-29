@@ -35,7 +35,6 @@ public class LevelTwo implements Screen {
     private Sound clickSound;
     final LevelTwo curr_level = this;
 
-    // Game objects
     private Wood_ver wood1, wood2, wood3, wood4, wood5, wood6;
     private Stone stone1, stone2, stone3;
     private MediumPig pig1, pig2;
@@ -52,7 +51,6 @@ public class LevelTwo implements Screen {
     private boolean pig1Dead = false;
     private boolean pig2Dead = false;
 
-    // Box2D components
     private World world;
     private Box2DDebugRenderer debugRenderer;
     private Body birdBody;
@@ -63,7 +61,6 @@ public class LevelTwo implements Screen {
     private ShapeRenderer trajectoryRenderer;
     private Array<Body> bodiesToMakeDynamic;
 
-    // Physics variables
     private Vector2 slingshotAnchor;
     private boolean isDragging = false;
     private boolean birdLaunched = false;
@@ -120,7 +117,6 @@ public class LevelTwo implements Screen {
     }
 
     private void initializeGameObjects() {
-        // Initialize wooden structures
         wood1 = new Wood_ver(500, 105);
         wood1.setSize(25, 90);
         wood2 = new Wood_ver(550, 105);
@@ -134,7 +130,6 @@ public class LevelTwo implements Screen {
         wood6 = new Wood_ver(650, 105);
         wood6.setSize(25, 90);
 
-        // Initialize stone platforms
         stone1 = new Stone(495, 192);
         stone1.setSize(80, 18);
         stone2 = new Stone(495, 293);
@@ -142,13 +137,11 @@ public class LevelTwo implements Screen {
         stone3 = new Stone(600, 192);
         stone3.setSize(75, 18);
 
-        // Initialize pigs
         pig1 = new MediumPig(518, 307);
         pig1.setSize(50, 50);
         pig2 = new MediumPig(613, 207);
         pig2.setSize(50, 50);
 
-        // Initialize birds
         blackBird = new BlackBird(185, 210);
         blackBird.setSize(40, 40);
         yellowBird = new YellowBird(90, 105);
@@ -156,15 +149,11 @@ public class LevelTwo implements Screen {
         redBird = new RedBird(130, 110);
         redBird.setSize(38, 38);
 
-        activeBird = blackBird; // Start with black bird
+        activeBird = blackBird;
 
-        // Initialize other objects
         slingshot = new Slingshot(160, 110);
         slingshot.setSize(70, 110);
-        //win = new Win(220, 330);
-        //win.setSize(80, 30);
-        //lose = new Lose(335, 330);
-        //lose.setSize(80, 30);
+
     }
 
     private void initializeBirdQueue() {
@@ -174,7 +163,6 @@ public class LevelTwo implements Screen {
     }
 
     private void createPhysicsBodies() {
-        // Create ground
         BodyDef groundDef = new BodyDef();
         groundDef.position.set(Main.V_WIDTH / 2 / PPM, (GROUND_HEIGHT-5) / PPM);
         Body groundBody = world.createBody(groundDef);
@@ -183,24 +171,22 @@ public class LevelTwo implements Screen {
         groundBody.createFixture(groundShape, 0.0f).setUserData("ground");
         groundShape.dispose();
 
-        // Create bird body
         createBirdBody();
 
-        // Create wood bodies
         woodBodies = new Body[6];
         Wood_ver[] woods = {wood1, wood2, wood3, wood4, wood5, wood6};
         for (int i = 0; i < woods.length; i++) {
             woodBodies[i] = createWoodBody(woods[i]);
         }
 
-        // Create stone bodies
+
         stoneBodies = new Body[3];
         Stone[] stones = {stone1, stone2, stone3};
         for (int i = 0; i < stones.length; i++) {
             stoneBodies[i] = createStoneBody(stones[i]);
         }
 
-        // Create pig bodies
+
         pigBodies = new Body[2];
         pigBodies[0] = createPigBody(pig1, "pig1");
         pigBodies[1] = createPigBody(pig2, "pig2");
@@ -208,7 +194,7 @@ public class LevelTwo implements Screen {
 
     private Body createBirdBody() {
         BodyDef birdDef = new BodyDef();
-        birdDef.type = BodyDef.BodyType.KinematicBody;  // Start as kinematic so bird doesn't fall
+        birdDef.type = BodyDef.BodyType.KinematicBody;
         birdDef.position.set(activeBird.getX() / PPM, activeBird.getY() / PPM);
 
         birdBody = world.createBody(birdDef);
@@ -217,7 +203,7 @@ public class LevelTwo implements Screen {
 
         FixtureDef birdFixture = new FixtureDef();
         birdFixture.shape = birdShape;
-        birdFixture.density = 0.8f;     // Standard density for all birds
+        birdFixture.density = 0.8f;
         birdFixture.friction = 0.2f;
         birdFixture.restitution = 0.4f;
 
@@ -238,9 +224,9 @@ public class LevelTwo implements Screen {
 
         FixtureDef woodFixture = new FixtureDef();
         woodFixture.shape = woodShape;
-        woodFixture.density = 3.0f;         // Increased density
-        woodFixture.friction = 0.8f;        // Increased friction
-        woodFixture.restitution = 0.1f;     // Reduced bounciness
+        woodFixture.density = 3.0f;
+        woodFixture.friction = 0.8f;
+        woodFixture.restitution = 0.1f;
 
         woodBody.createFixture(woodFixture).setUserData("wood");
         woodShape.dispose();
@@ -249,7 +235,7 @@ public class LevelTwo implements Screen {
 
     private Body createStoneBody(Stone stone) {
         BodyDef stoneDef = new BodyDef();
-        stoneDef.type = BodyDef.BodyType.KinematicBody;  // Change to kinematic instead of dynamic
+        stoneDef.type = BodyDef.BodyType.KinematicBody;
         stoneDef.position.set((stone.getX() + stone.getWidth()/2) / PPM,
             (stone.getY() + stone.getHeight()/2) / PPM);
 
@@ -284,7 +270,7 @@ public class LevelTwo implements Screen {
         pigFixture.friction = 0.2f;
         pigFixture.restitution = 0.2f;
 
-        pigBody.createFixture(pigFixture).setUserData(identifier); // Use unique identifier
+        pigBody.createFixture(pigFixture).setUserData(identifier);
         pigShape.dispose();
         return pigBody;
     }
@@ -299,7 +285,6 @@ public class LevelTwo implements Screen {
                 String userDataA = (String) fixtureA.getUserData();
                 String userDataB = (String) fixtureB.getUserData();
 
-                // Make structures dynamic on collision with bird or other structures
                 if ("bird".equals(userDataA)) {
                     if ("wood".equals(userDataB) || "stone".equals(userDataB)) {
                         bodiesToMakeDynamic.add(fixtureB.getBody());
@@ -324,7 +309,6 @@ public class LevelTwo implements Screen {
                     }
                 }
 
-                // Check for individual pig deaths (bird collision or ground collision)
                 if (("bird".equals(userDataA) && "pig1".equals(userDataB)) ||
                     ("pig1".equals(userDataA) && "bird".equals(userDataB)) ||
                     ("ground".equals(userDataA) && "pig1".equals(userDataB)) ||
@@ -339,7 +323,6 @@ public class LevelTwo implements Screen {
                     pig2Dead = true;
                 }
 
-                // Check if both pigs are dead to trigger level completion
                 if (pig1Dead && pig2Dead) {
                     isExploding = true;
                     explosionTimer = 0;
@@ -358,12 +341,10 @@ public class LevelTwo implements Screen {
     }
 
     private void makeConnectedBodiesDynamic(Body startBody) {
-        // Get all bodies that are touching or above this body
         for (Body body : getAllBodies()) {
             if (body.getType() == BodyDef.BodyType.KinematicBody) {
                 String userData = (String) body.getFixtureList().first().getUserData();
                 if ("wood".equals(userData) || "stone".equals(userData)) {
-                    // If this body is above or touching the start body
                     if (isBodyAboveOrTouching(startBody, body)) {
                         bodiesToMakeDynamic.add(body);
                     }
@@ -371,18 +352,12 @@ public class LevelTwo implements Screen {
             }
         }
     }
-    private boolean checkPigContact(Fixture a, Fixture b) {
-        return ("bird".equals(a.getUserData()) && "pig".equals(b.getUserData())) ||
-            ("pig".equals(a.getUserData()) && "bird".equals(b.getUserData())) ||
-            ("ground".equals(a.getUserData()) && "pig".equals(b.getUserData())) ||
-            ("ground".equals(b.getUserData()) && "pig".equals(a.getUserData()));
-    }
+
     private boolean isBodyAboveOrTouching(Body baseBody, Body testBody) {
         float baseTop = baseBody.getPosition().y + getBodyHeight(baseBody);
         float testBottom = testBody.getPosition().y - getBodyHeight(testBody);
 
-        // Check if testBody is above baseBody
-        return testBottom <= baseTop + 0.1f; // Small tolerance for stability
+        return testBottom <= baseTop + 0.1f;
     }
     private Array<Body> getAllBodies() {
         Array<Body> bodies = new Array<>();
@@ -390,7 +365,6 @@ public class LevelTwo implements Screen {
         return bodies;
     }
     private float getBodyHeight(Body body) {
-        // Assuming rectangular shapes
         return body.getFixtureList().first().getShape().getRadius() * 2;
     }
 
@@ -402,7 +376,6 @@ public class LevelTwo implements Screen {
             );
         }
 
-        // Update wood positions
         Wood_ver[] woods = {wood1, wood2, wood3, wood4, wood5, wood6};
         for (int i = 0; i < woods.length; i++) {
             Body body = woodBodies[i];
@@ -413,7 +386,6 @@ public class LevelTwo implements Screen {
             woods[i].setRotation((float) Math.toDegrees(body.getAngle()));
         }
 
-        // Update stone positions
         Stone[] stones = {stone1, stone2, stone3};
         for (int i = 0; i < stones.length; i++) {
             Body body = stoneBodies[i];
@@ -576,7 +548,7 @@ public class LevelTwo implements Screen {
 
     public GameState captureGameState() {
         GameState state = new GameState();
-        state.currentLevel = 2;  // Explicitly set level 2
+        state.currentLevel = 2;
         state.birdX = activeBird.getX();
         state.birdY = activeBird.getY();
         state.birdLaunched = birdLaunched;
@@ -605,19 +577,17 @@ public class LevelTwo implements Screen {
     }
 
     public void loadGameState(GameState state) {
-        // Reset active bird
+
         activeBird = createBirdFromType(state.activeBirdType, state.birdX, state.birdY);
         birdLaunched = state.birdLaunched;
         if (birdBody != null) world.destroyBody(birdBody);
         createBirdBody();
 
-        // Reset pigs
         pig1Dead = state.pigStates.get(0).isDead;
         pig2Dead = state.pigStates.get(1).isDead;
         pig1.setPosition(state.pigStates.get(0).x, state.pigStates.get(0).y);
         pig2.setPosition(state.pigStates.get(1).x, state.pigStates.get(1).y);
 
-        // Reset structures
         for (GameState.StructureState structState : state.structureStates) {
             if (structState.type.equals("wood")) {
                 int index = Integer.parseInt(structState.identifier.replace("wood", "")) - 1;
@@ -685,10 +655,8 @@ public class LevelTwo implements Screen {
         sb.begin();
         sb.draw(bg, 0, 0, Main.V_WIDTH, Main.V_HEIGHT);
 
-        // Draw all game objects
         slingshot.draw(sb);
 
-        // Draw woods
         wood1.draw(sb);
         wood2.draw(sb);
         wood3.draw(sb);
@@ -696,12 +664,10 @@ public class LevelTwo implements Screen {
         wood5.draw(sb);
         wood6.draw(sb);
 
-        // Draw stones
         stone1.draw(sb);
         stone2.draw(sb);
         stone3.draw(sb);
 
-        // Draw pigs
         if (!pig1Dead) {
             pig1.draw(sb);
         }
@@ -709,13 +675,11 @@ public class LevelTwo implements Screen {
             pig2.draw(sb);
         }
 
-        // Draw active bird and queue
         activeBird.draw(sb);
         for (Bird bird : birdQueue) {
             bird.draw(sb);
         }
 
-        // Draw explosions on top of pigs
         if (pig1Dead) {
             sb.draw(explosionTexture,
                 pig1.getX() - 20, pig1.getY() - 20,

@@ -23,7 +23,7 @@ public class PauseScreen implements Screen {
     private Viewport vp;
     private Stage stage;
     private BitmapFont font;
-    private Screen previousScreen; // Generic Screen reference instead of specific level
+    private Screen previousScreen;
     private Sound clickSound;
 
     public PauseScreen(final Main game, Screen previousScreen) {
@@ -103,11 +103,10 @@ public class PauseScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        game.batch.begin(); //initializing batch
+        game.batch.begin();
         game.batch.draw(bg, 0, 0, Main.V_WIDTH, Main.V_HEIGHT); //drawing texture
         game.batch.end();
 
-        //rendering stage
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
@@ -128,7 +127,6 @@ public class PauseScreen implements Screen {
 
     @Override
     public void dispose() {
-        //dispose resources
         bg.dispose();
         stage.dispose();
         font.dispose();

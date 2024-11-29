@@ -8,13 +8,13 @@ public class Wood_ver extends Sprite {
     private Texture texture;
 
     public Wood_ver(float x, float y) {
-        texture = new Texture("wood_ver.png"); //loading picture from assets
+        texture = new Texture("wood_ver.png");
         setTexture(texture);
         setPosition(x,y);
     }
 
     public void draw(SpriteBatch spritebatch){
-        spritebatch.draw(texture, getX(), getY(), getWidth(), getHeight()); //method to set appropriate position
+        spritebatch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
 
     public void dispose() {

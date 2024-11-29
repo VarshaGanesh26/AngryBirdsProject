@@ -44,7 +44,6 @@ public class SettingsScreen implements Screen {
         clickSound = Gdx.audio.newSound(Gdx.files.internal("click.mp3"));
         Label.LabelStyle ls = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.WHITE);
 
-        // Creating labels
         Label termsLabel = new Label("T&C", ls);
         volumeLabel = new Label("VOLUME: off", ls);
         Label backLabel = new Label("EXIT", ls);
@@ -83,7 +82,6 @@ public class SettingsScreen implements Screen {
         stage.addActor(table);
     }
 
-    // For volume settings
     private void toggleVolume() {
         flag = !flag;
         if (flag) {

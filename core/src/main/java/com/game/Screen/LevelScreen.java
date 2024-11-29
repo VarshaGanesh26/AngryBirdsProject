@@ -16,9 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.game.Main;
-import com.game.Screen.LevelOne;
-import com.game.Screen.LevelThree;
-import com.game.Screen.LevelTwo;
 
 public class LevelScreen implements Screen {
     private static final float BUTTON_RADIUS = 40;
@@ -28,7 +25,6 @@ public class LevelScreen implements Screen {
     private SpriteBatch batch;
     private Stage stage;
     private ShapeRenderer shapeRenderer;
-    private Table buttonTable;
     private Viewport viewport;
     private TextButton level1, level2, level3;
     private BitmapFont font;
@@ -52,16 +48,15 @@ public class LevelScreen implements Screen {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = font;
         style.fontColor = Color.WHITE;
-        style.overFontColor = Color.YELLOW;  // Color when hovered
+        style.overFontColor = Color.YELLOW;
 
         level1 = new TextButton("1", style);
         level2 = new TextButton("2", style);
         level3 = new TextButton("3", style);
 
-        // Position buttons in triangle formation
-        level1.setPosition(Main.V_WIDTH/2 - 20, Main.V_HEIGHT/2 + 100);  // Higher
-        level2.setPosition(Main.V_WIDTH/2 - BUTTON_RADIUS - 120, Main.V_HEIGHT/2 - 80);  // Further left
-        level3.setPosition(Main.V_WIDTH/2 + BUTTON_RADIUS + 80, Main.V_HEIGHT/2 - 80);   // Further right
+        level1.setPosition(Main.V_WIDTH/2 - 20, Main.V_HEIGHT/2 + 100);
+        level2.setPosition(Main.V_WIDTH/2 - BUTTON_RADIUS - 120, Main.V_HEIGHT/2 - 80);
+        level3.setPosition(Main.V_WIDTH/2 + BUTTON_RADIUS + 80, Main.V_HEIGHT/2 - 80);
 
         level1.addListener(new ClickListener() {
             @Override
@@ -94,18 +89,15 @@ public class LevelScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Draw map background
         batch.begin();
         batch.draw(mapTexture, 0, 0, Main.V_WIDTH, Main.V_HEIGHT);
         batch.end();
 
-        // Draw circles behind buttons
         Gdx.gl.glEnable(GL20.GL_BLEND);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setProjectionMatrix(viewport.getCamera().combined);
 
-        // Draw circle for each button
-        shapeRenderer.setColor(0, 0, 0, 0.5f);  // Semi-transparent black
+        shapeRenderer.setColor(0, 0, 0, 0.5f);
         shapeRenderer.circle(level1.getX() + 20, level1.getY() + 20, BUTTON_RADIUS);
         shapeRenderer.circle(level2.getX() + 20, level2.getY() + 20, BUTTON_RADIUS);
         shapeRenderer.circle(level3.getX() + 20, level3.getY() + 20, BUTTON_RADIUS);
@@ -113,7 +105,6 @@ public class LevelScreen implements Screen {
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
-        // Draw stage (buttons and text)
         stage.act(delta);
         stage.draw();
     }
@@ -132,7 +123,6 @@ public class LevelScreen implements Screen {
         font.dispose();
     }
 
-    // Other required Screen methods
     @Override public void show() {}
     @Override public void pause() {}
     @Override public void resume() {}

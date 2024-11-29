@@ -8,18 +8,18 @@ public abstract class BasePig extends Sprite {
     protected Texture texture;
 
     public BasePig(String texturePath, float x, float y) {
-        texture = new Texture(texturePath); // Load the texture from the provided path
+        texture = new Texture(texturePath);
         setTexture(texture);
         setPosition(x, y);
     }
 
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(texture, getX(), getY(), getWidth(), getHeight()); // Draw the pig at its position
+        spriteBatch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
 
     public void dispose() {
-        texture.dispose(); // Dispose of the texture when no longer needed
+        texture.dispose();
     }
 
-    public abstract void takeDamage(); // Abstract method to be implemented by subclasses
+    public abstract void takeDamage();
 }

@@ -64,15 +64,15 @@ public class LevelOne implements Screen {
     private ShapeRenderer trajectoryRenderer;
     private int remainingBirds = 2;
     public ArrayList<RedBird> birdQueue;
-    private ArrayList<RedBird> allBirds; // New field to track all birds
-    private RedBird selectedBird; // New field to track currently selected bird
+    private ArrayList<RedBird> allBirds;
+    private RedBird selectedBird; //
     private Vector2 originalPosition;
 
 
     public LevelOne(Main game) {
         this.game = game;
         this.sb = game.batch;
-        allBirds = new ArrayList<RedBird>();
+        allBirds = new ArrayList<>();
 
         world = new World(new Vector2(0, -9.8f), true);
         debugRenderer = new Box2DDebugRenderer();
@@ -119,13 +119,11 @@ public class LevelOne implements Screen {
         activeBird.setSize(38, 38);
         allBirds.add(activeBird);
 
-        birdQueue = new ArrayList<RedBird>();
+        birdQueue = new ArrayList<>();
         RedBird waitingBird = new RedBird(90, 110);
         waitingBird.setSize(38, 38);
         birdQueue.add(waitingBird);
         allBirds.add(waitingBird);
-
-
 
         slingshot = new Slingshot(150, 110);
         slingshot.setSize(70, 110);
@@ -138,16 +136,6 @@ public class LevelOne implements Screen {
         return touchPos.dst(bird.getX() + bird.getWidth()/2,
             bird.getY() + bird.getHeight()/2) < bird.getWidth()/2;
     }
-
-    private void resetBirdPosition(RedBird bird) {
-        if (bird == activeBird) {
-            bird.setPosition(185, 165);
-        } else {
-            bird.setPosition(90, 110);
-        }
-    }
-
-
 
     private void createBodies() {
         // Ground
@@ -180,7 +168,6 @@ public class LevelOne implements Screen {
         pigBody.createFixture(pigFixture).setUserData("pig");
         pigShape.dispose();
 
-        // Wood
         BodyDef woodDef = new BodyDef();
         woodDef.type = BodyDef.BodyType.DynamicBody;
         woodDef.position.set((530 + 30) / PPM, (GROUND_HEIGHT + 45) / PPM);
@@ -198,7 +185,6 @@ public class LevelOne implements Screen {
         woodBody.createFixture(woodFixture).setUserData("wood");
         woodShape.dispose();
 
-        // Glass
         BodyDef glassDef = new BodyDef();
         glassDef.type = BodyDef.BodyType.DynamicBody;
         glassDef.position.set((490 + 70) / PPM, (GROUND_HEIGHT + 90 + 10) / PPM);
@@ -216,22 +202,18 @@ public class LevelOne implements Screen {
         glassBody.createFixture(glassFixture).setUserData("glass");
         glassShape.dispose();
 
-        // Add world bounds
         BodyDef wallDef = new BodyDef();
         PolygonShape wallShape = new PolygonShape();
 
-        // Left wall
         Body leftWall = world.createBody(wallDef);
         wallShape.setAsBox(1 / PPM, Main.V_HEIGHT / PPM);
         leftWall.createFixture(wallShape, 0.0f);
         leftWall.setTransform(0, Main.V_HEIGHT / 2 / PPM, 0);
 
-        // Right wall
         Body rightWall = world.createBody(wallDef);
         rightWall.createFixture(wallShape, 0.0f);
         rightWall.setTransform(Main.V_WIDTH / PPM, Main.V_HEIGHT / 2 / PPM, 0);
 
-        // Top wall
         Body topWall = world.createBody(wallDef);
         wallShape.setAsBox(Main.V_WIDTH / PPM, 1 / PPM);
         topWall.createFixture(wallShape, 0.0f);
@@ -283,14 +265,11 @@ public class LevelOne implements Screen {
                     explosionTimer = 0;
                 }
 
-
-                // Bird collision with structures (wood/glass)
                 if (("bird".equals(userDataA) && "wood".equals(userDataB)) ||
                     ("bird".equals(userDataB) && "wood".equals(userDataA)) ||
                     ("bird".equals(userDataA) && "glass".equals(userDataB)) ||
                     ("bird".equals(userDataB) && "glass".equals(userDataA))) {
-                    // Optional: Apply damage to the structure or handle bird's bounce
-                    shouldResetBird = true; // Bird has hit something, reset it
+                    shouldResetBird = true;
                 }
             }
 
@@ -305,45 +284,21 @@ public class LevelOne implements Screen {
         });
     }
 
-    private boolean isNearBird(Vector2 touchPos) {
-        return touchPos.dst(activeBird.getX() + activeBird.getWidth()/2,
-            activeBird.getY() + activeBird.getHeight()/2) < 50;
-    }
-
     private void launchBird() {
-        birdBody.setType(BodyDef.BodyType.DynamicBody); // Allow physics simulation after release
+        birdBody.setType(BodyDef.BodyType.DynamicBody);
 
-        Vector2 birdCenter = birdBody.getPosition(); // Current position in physics world
-        Vector2 anchor = new Vector2(slingshotAnchor.x / PPM, slingshotAnchor.y / PPM); // Slingshot anchor
+        Vector2 birdCenter = birdBody.getPosition();
+        Vector2 anchor = new Vector2(slingshotAnchor.x / PPM, slingshotAnchor.y / PPM);
 
-        Vector2 launchDir = anchor.sub(birdCenter);  // Corrected direction: from bird to slingshot
-        float dragDistance = Math.min(launchDir.len(), 1f); // Limit drag distance to avoid excessive force
-        float launchPower = dragDistance * 4f;  // Scale the launch power dynamically
+        Vector2 launchDir = anchor.sub(birdCenter);
+        float dragDistance = Math.min(launchDir.len(), 1f);
+        float launchPower = dragDistance * 4f;
 
-        Vector2 impulse = launchDir.nor().scl(launchPower); // Apply impulse towards the target
+        Vector2 impulse = launchDir.nor().scl(launchPower);
         birdBody.applyLinearImpulse(impulse, birdBody.getWorldCenter(), true);
 
         birdLaunched = true;
     }
-
-
-    private boolean isBirdOnGround() {
-        if (birdBody != null) {
-            Vector2 position = birdBody.getPosition();
-            Vector2 velocity = birdBody.getLinearVelocity();
-
-            // If bird is off screen or hits ground/structure
-            if (position.x * PPM < -50 || position.x * PPM > Main.V_WIDTH + 50 ||
-                position.y * PPM < -50 || position.y * PPM > Main.V_HEIGHT + 50 ||
-                position.y * PPM <= GROUND_HEIGHT + 15
-
-            ) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     private void resetBird() {
         if (birdBody != null) {
@@ -355,14 +310,12 @@ public class LevelOne implements Screen {
             activeBird.setPosition(185, 210);
             createBirdBody(185, 210);
         } else {
-            game.setScreen(new LoseScreen(game, curr_level,1)); // No birds left; level failed.
+            game.setScreen(new LoseScreen(game, curr_level,1));
         }
 
-        birdLaunched = false; // Reset bird launch state
+        birdLaunched = false;
         isDragging = false;
     }
-
-
 
     public void updatePhysicsSprites() {
         if (birdLaunched) {
@@ -398,7 +351,7 @@ public class LevelOne implements Screen {
             );
 
             Vector2 anchorPos = new Vector2(slingshotAnchor);
-            Vector2 launchDir = anchorPos.sub(birdCenter);  // Flip direction: now points opposite way
+            Vector2 launchDir = anchorPos.sub(birdCenter);
 
             trajectoryRenderer.begin(ShapeRenderer.ShapeType.Filled);
             trajectoryRenderer.setColor(1, 1, 1, 0.5f);
@@ -439,7 +392,6 @@ public class LevelOne implements Screen {
                         dragStart = worldPos;
                         originalPosition = new Vector2(bird.getX(), bird.getY());
 
-                        // Only handle active bird
                         if (bird == activeBird) {
                             return true;
                         }
@@ -483,7 +435,6 @@ public class LevelOne implements Screen {
                     if (selectedBird == activeBird) {
                         launchBird();
                     } else {
-                        // If not the active bird, reset to original position
                         selectedBird.setPosition(originalPosition.x, originalPosition.y);
                     }
                     selectedBird = null;
@@ -494,10 +445,6 @@ public class LevelOne implements Screen {
         });
         Gdx.input.setInputProcessor(multiplexer);
     }
-
-
-
-
 
     @Override
     public void render(float delta) {
@@ -511,7 +458,6 @@ public class LevelOne implements Screen {
             resetBird();
             shouldResetBird = false;
         }
-
 
         cam.update();
         sb.setProjectionMatrix(cam.combined);
@@ -557,22 +503,18 @@ public class LevelOne implements Screen {
     public GameState captureGameState() {
         GameState state = new GameState();
 
-        // Current level info
-        state.currentLevel = 1; // Assuming this is LevelOne
+        state.currentLevel = 1;
         state.birdX = activeBird.getX();
         state.birdY = activeBird.getY();
         state.birdLaunched = birdLaunched;
 
-        // Pig state
         state.pigStates = new ArrayList<>();
-        state.pigStates.add(new GameState.PigState(pig.getX(), pig.getY(), isExploding, "medium", "pig1"));// Update type as needed
+        state.pigStates.add(new GameState.PigState(pig.getX(), pig.getY(), isExploding, "medium", "pig1"));
 
-        // Structure states
         state.structureStates = new ArrayList<>();
         state.structureStates.add(new GameState.StructureState(wood.getX(), wood.getY(), wood.getRotation(), "wood", "wood1"));
         state.structureStates.add(new GameState.StructureState(glass.getX(), glass.getY(), glass.getRotation(), "glass", "glass1"));
 
-        // Remaining birds
         state.remainingBirds = new ArrayList<>();
         for (RedBird bird : birdQueue) {
             state.remainingBirds.add(new GameState.BirdState(bird.getX(), bird.getY(), "red")); // Update type as needed
@@ -582,16 +524,13 @@ public class LevelOne implements Screen {
     }
 
     public void loadGameState(GameState state) {
-        // Restore bird state
         activeBird.setPosition(state.birdX, state.birdY);
         birdLaunched = state.birdLaunched;
 
-        // Restore pig state
-        GameState.PigState savedPig = state.pigStates.get(0); // Assuming one pig for simplicity
+        GameState.PigState savedPig = state.pigStates.get(0);
         pig.setPosition(savedPig.x, savedPig.y);
         isExploding = savedPig.isDead;
 
-        // Restore structures
         GameState.StructureState savedWood = state.structureStates.get(0);
         wood.setPosition(savedWood.x, savedWood.y);
         wood.setRotation(savedWood.rotation);
@@ -600,7 +539,6 @@ public class LevelOne implements Screen {
         glass.setPosition(savedGlass.x, savedGlass.y);
         glass.setRotation(savedGlass.rotation);
 
-        // Restore remaining birds
         birdQueue.clear();
         for (GameState.BirdState savedBird : state.remainingBirds) {
             RedBird bird = new RedBird(savedBird.x, savedBird.y);
@@ -626,7 +564,6 @@ public class LevelOne implements Screen {
     @Override
     public void hide() {
     }
-
 
     @Override
     public void dispose() {

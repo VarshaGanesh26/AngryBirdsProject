@@ -19,7 +19,7 @@ import com.game.Main;
 public class WinScreen implements Screen {
     private static final float BUTTON_WIDTH = 160;
     private static final float BUTTON_HEIGHT = 60;
-    private static final Color BUTTON_COLOR = new Color(0.5f, 0, 0, 0.8f); // Maroon with slight transparency
+    private static final Color BUTTON_COLOR = new Color(0.5f, 0, 0, 0.8f);
 
     private Main game;
     private Texture bgTexture;
@@ -53,25 +53,20 @@ public class WinScreen implements Screen {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = font;
         style.fontColor = Color.BLACK;
-        style.overFontColor = Color.WHITE;  // Color when hovered
+        style.overFontColor = Color.WHITE;
 
-        // Create buttons with descriptive text
         homeBtn = new TextButton("Home", style);
         restartBtn = new TextButton("Play Again", style);
         nextBtn = new TextButton("Next Level", style);
 
-        // Position buttons in a horizontal line at the bottom third of the screen
-        // Calculate center positions
-        float centerY = Main.V_HEIGHT / 2; // Center vertically
-        float totalWidth = (BUTTON_WIDTH * 3) + (40 * 2); // Total width including spacing
-        float startX = (Main.V_WIDTH - totalWidth) / 2; // Center horizontally
+        float centerY = Main.V_HEIGHT / 2;
+        float totalWidth = (BUTTON_WIDTH * 3) + (40 * 2);
+        float startX = (Main.V_WIDTH - totalWidth) / 2;
 
-        // Position buttons with proper spacing
         homeBtn.setBounds(startX, centerY - BUTTON_HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT);
         restartBtn.setBounds(startX + BUTTON_WIDTH + 40, centerY - BUTTON_HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT);
         nextBtn.setBounds(startX + (BUTTON_WIDTH + 40) * 2, centerY - BUTTON_HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT);
 
-        // Add click listeners
         homeBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -107,7 +102,7 @@ public class WinScreen implements Screen {
                         game.setScreen(new LevelThree(game));
                         break;
                     case 3:
-                        game.setScreen(new HomeScreen(game)); // Back to map if it's the last level
+                        game.setScreen(new HomeScreen(game));
                         break;
                 }
             }
@@ -132,7 +127,6 @@ public class WinScreen implements Screen {
         shapeRenderer.setProjectionMatrix(viewport.getCamera().combined);
         shapeRenderer.setColor(BUTTON_COLOR);
 
-        // Draw ovals at button positions
         for (TextButton button : new TextButton[]{homeBtn, restartBtn, nextBtn}) {
             float centerX = button.getX() + BUTTON_WIDTH/2;
             float centerY = button.getY() + BUTTON_HEIGHT/2;
@@ -176,7 +170,6 @@ public class WinScreen implements Screen {
         font.dispose();
     }
 
-    // Other required Screen methods
     @Override public void show() {}
     @Override public void pause() {}
     @Override public void resume() {}

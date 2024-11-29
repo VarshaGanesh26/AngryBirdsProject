@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-//extends actor so that it can be made clickable
 public class Lose extends Actor {
     private Texture texture;
 
@@ -20,7 +19,7 @@ public class Lose extends Actor {
 
     @Override
     public void act(float delta) {
-        super.act(delta); //to update consistently
+        super.act(delta);
     }
 
     public void dispose() {

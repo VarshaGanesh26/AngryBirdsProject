@@ -8,13 +8,13 @@ public class Stone extends Sprite {
     private Texture texture;
 
     public Stone(float x, float y) {
-        texture = new Texture("stone.jpeg"); //loading picture from assets
+        texture = new Texture("stone.jpeg");
         setTexture(texture);
         setPosition(x,y);
     }
 
     public void draw(SpriteBatch spritebatch){
-        spritebatch.draw(texture, getX(), getY(), getWidth(), getHeight()); //method to set appropriate position
+        spritebatch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
 
     public void dispose() {

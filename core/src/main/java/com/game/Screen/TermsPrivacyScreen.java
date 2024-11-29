@@ -39,23 +39,21 @@ public class TermsPrivacyScreen implements Screen {
 
         Label.LabelStyle ls = new Label.LabelStyle(font, com.badlogic.gdx.graphics.Color.BLACK);
 
-        //creating label with text to be displayed
         Label tncLabel = new Label("Angry Birds may collect personal and non-personal information from users, but they do not knowingly collect personal information from children under 13." +
             "Subject to these TOS, Rovio hereby grants you a non-exclusive, non-transferable, non-sublicensable, limited right and license to use the Services for your personal, non-commercial use. The rights granted to you are subject to your compliance with these TOS.\n" +
             "\n" +
             "Except as set forth above, you do not receive any other license. Rovio retains all right, title and interest in and to the Services, including, but not limited to, all copyrights, trademarks, rights, in each case whether registered or not and all applications thereof." +
             " Unless expressly authorized by applicable law, the Services may not be copied, reproduced, or distributed in any manner or medium, in whole or in part, without Rovio’s prior written consent. " +
             "Rovio reserves all rights not expressly granted to you herein.", ls);
-        tncLabel.setWrap(true); //text wrapping enabled
+        tncLabel.setWrap(true);
         tncLabel.setWidth(Main.V_WIDTH - 40);
-        GlyphLayout layout = new GlyphLayout(font, tncLabel.getText()); //layout centre
+        GlyphLayout layout = new GlyphLayout(font, tncLabel.getText());
         tncLabel.setPosition((Main.V_WIDTH - layout.width) / 2, (float) Main.V_HEIGHT / 2 - layout.height / 2);
 
         tncLabel.setPosition(20, (float) Main.V_HEIGHT / 2);
 
         stage.addActor(tncLabel);
 
-        //creating home label
         Label.LabelStyle homeLabelStyle = new Label.LabelStyle(font, Color.WHITE);
         Label homeLabel = new Label("HOME", homeLabelStyle);
 
@@ -65,7 +63,7 @@ public class TermsPrivacyScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 clickSound.play();
-                game.setScreen(new HomeScreen(game)); //clicking will display home screen
+                game.setScreen(new HomeScreen(game));
             }
         });
 

@@ -8,8 +8,8 @@ import com.game.Screen.HomeScreen;
 import com.game.Screen.LevelThree;
 
 public class Main extends Game {
-    public static final int V_WIDTH=800; //fixing width of screen
-    public static final int V_HEIGHT =500; //fixing height of screen
+    public static final int V_WIDTH=800;
+    public static final int V_HEIGHT =500;
     public static final int PPM = 100;
     public SpriteBatch batch;
     public Music bgm;
@@ -17,7 +17,7 @@ public class Main extends Game {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        bgm = Gdx.audio.newMusic(Gdx.files.internal("theme.mp3")); //accessing theme song
+        bgm = Gdx.audio.newMusic(Gdx.files.internal("theme.mp3"));
         bgm.setLooping(true);
         setScreen(new HomeScreen(this));
         //Gdx.app.log("Main", "Create method called.");

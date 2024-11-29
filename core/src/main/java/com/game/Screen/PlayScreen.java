@@ -42,12 +42,10 @@ public class PlayScreen implements Screen {
 
         Label.LabelStyle ls = new Label.LabelStyle(font, Color.WHITE);
 
-        //creating labels
         Label newGameLabel = new Label("NEW GAME", ls);
         Label savedGameLabel = new Label("SAVED GAME", ls);
         Label homeLabel= new Label("HOME", ls);
 
-        //creating ClickListeners
         newGameLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -62,7 +60,7 @@ public class PlayScreen implements Screen {
                 clickSound.play();
                 GameState state = GameState.loadGame("savegame.dat");
                 if (state != null) {
-                    Screen levelScreen = new LevelOne(game); // Default initialization
+                    Screen levelScreen = new LevelOne(game);
                     if (state.currentLevel == 1) {
                         levelScreen = new LevelOne(game);
                         ((LevelOne)levelScreen).loadGameState(state);
@@ -88,7 +86,6 @@ public class PlayScreen implements Screen {
         table.add(newGameLabel).padBottom(20).row();
         table.add(savedGameLabel);
 
-        //adding table to stage on screen
         stage.addActor(table);
     }
 
@@ -126,7 +123,6 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
-        //dispose resources to prevent memory leaks
         bg.dispose();
         stage.dispose();
         font.dispose();

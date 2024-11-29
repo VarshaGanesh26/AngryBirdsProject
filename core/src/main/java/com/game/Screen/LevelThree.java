@@ -171,7 +171,7 @@ public class LevelThree implements Screen {
         // Initialize pigs
         pig = new SmallPig(547, 226);
         pig.setSize(25, 25);
-        kpig = new KingPin(544, 363);
+        kpig = new KingPin(544, 355);
         kpig.setSize(45, 45);
 
         // Initialize birds
