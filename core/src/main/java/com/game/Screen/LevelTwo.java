@@ -509,7 +509,7 @@ public class LevelTwo implements Screen {
             activeBird.setPosition(185, 210);
             createBirdBody();
         } else {
-            game.setScreen(new LoseScreen(game));
+            game.setScreen(new LoseScreen(game, curr_level,2));
         }
 
         birdLaunched = false;
@@ -640,7 +640,7 @@ public class LevelTwo implements Screen {
         if (isExploding) {
             explosionTimer += delta;
             if (explosionTimer >= EXPLOSION_DURATION) {
-                game.setScreen(new LevelThree(game));
+                game.setScreen(new WinScreen(game, curr_level, 2));
             }
         }
 

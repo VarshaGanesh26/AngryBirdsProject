@@ -38,8 +38,6 @@ public class LevelOne implements Screen {
     private MediumPig pig;
     private RedBird activeBird;
     private Slingshot slingshot;
-    private Win win;
-    private Lose lose;
     private BitmapFont font;
     private Sound clickSound;
     private boolean isExploding = false;
@@ -131,10 +129,6 @@ public class LevelOne implements Screen {
 
         slingshot = new Slingshot(150, 110);
         slingshot.setSize(70, 110);
-        win = new Win(220, 330);
-        win.setSize(80, 30);
-        lose = new Lose(335, 330);
-        lose.setSize(80, 30);
 
         createBodies();
         setupContactListener();
@@ -361,7 +355,7 @@ public class LevelOne implements Screen {
             activeBird.setPosition(185, 210);
             createBirdBody(185, 210);
         } else {
-            game.setScreen(new LoseScreen(game)); // No birds left; level failed.
+            game.setScreen(new LoseScreen(game, curr_level,1)); // No birds left; level failed.
         }
 
         birdLaunched = false; // Reset bird launch state
@@ -535,7 +529,7 @@ public class LevelOne implements Screen {
                 pig.getHeight() + 40);
 
             if (explosionTimer >= EXPLOSION_DURATION) {
-                game.setScreen(new LevelTwo(game));
+                game.setScreen(new WinScreen(game, curr_level,1));
             }
         }
 
@@ -544,9 +538,6 @@ public class LevelOne implements Screen {
         for (RedBird bird : birdQueue) {
             bird.draw(sb);
         }
-
-        win.draw(sb);
-        lose.draw(sb);
 
         sb.end();
 
@@ -586,8 +577,6 @@ public class LevelOne implements Screen {
             bird.dispose();
         }
         slingshot.dispose();
-        win.dispose();
-        lose.dispose();
         stage.dispose();
         font.dispose();
         trajectoryRenderer.dispose();
