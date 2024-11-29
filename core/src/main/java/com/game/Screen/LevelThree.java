@@ -39,19 +39,15 @@ public class LevelThree implements Screen {
     // Game objects
     private Wood_hor wood1, wood2, wood3, wood4;
     private Wood_ver woodv1, woodv2, woodv3, woodv4, woodv5, woodv6;
-    private Wood_vrt wood;
     private Glass_ver glass1, glass2;
     private Stone stone;
     private SmallPig pig;
     private KingPin kpig;
-    private MediumPig mpig;
     private BlackBird blackBird1, blackBird2;
     private YellowBird yellowBird1, yellowBird2;
     private RedBird redBird1, redBird2;
     private Bird activeBird;
     private Slingshot slingshot;
-    private Win win;
-    private Lose lose;
     private BitmapFont font;
     private boolean isExploding = false;
     private float explosionTimer = 0;
@@ -163,8 +159,6 @@ public class LevelThree implements Screen {
         woodv6 = new Wood_ver(690, 105);
         woodv6.setSize(22, 103);
 
-        wood = new Wood_vrt(531, 350);
-        wood.setSize(70, 70);
 
         glass1 = new Glass_ver(536, 105);
         glass1.setSize(15, 80);
@@ -179,8 +173,6 @@ public class LevelThree implements Screen {
         pig.setSize(25, 25);
         kpig = new KingPin(544, 363);
         kpig.setSize(45, 45);
-        mpig = new MediumPig(640, 107);
-        mpig.setSize(50, 50);
 
         // Initialize birds
         blackBird1 = new BlackBird(185, 210);  // First bird (active)
@@ -202,24 +194,12 @@ public class LevelThree implements Screen {
 
         slingshot = new Slingshot(150, 110);
         slingshot.setSize(70, 110);
-        win = new Win(220, 330);
-        win.setSize(80, 30);
-        lose = new Lose(335, 330);
-        lose.setSize(80, 30);
+//        win = new Win(220, 330);
+//        win.setSize(80, 30);
+//        lose = new Lose(335, 330);
+//        lose.setSize(80, 30);
 
-        win.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new WinScreen(game , curr_level , 3));
-            }
-        });
 
-        lose.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LoseScreen(game , curr_level , 3));
-            }
-        });
     }
 
     private void initializeBirdQueue() {
@@ -255,7 +235,6 @@ public class LevelThree implements Screen {
             woodVerBodies[i] = createWoodBody(woodsVer[i], false);
         }
 
-        woodVrtBody = createWoodVrtBody(wood);
 
         glassBodies = new Body[2];
         Glass_ver[] glasses = {glass1, glass2};
@@ -266,7 +245,6 @@ public class LevelThree implements Screen {
         stoneBody = createStoneBody(stone);
         pigBody = createPigBody(pig, "pig");
         kpigBody = createPigBody(kpig, "kpig");
-        mpigBody = createPigBody(mpig, "mpig");
     }
 
     private Body createBirdBody() {
@@ -624,12 +602,6 @@ public class LevelThree implements Screen {
             woodsVer[i].setRotation((float) Math.toDegrees(body.getAngle()));
         }
 
-        // Update wood_vrt position
-        wood.setPosition(
-            woodVrtBody.getPosition().x * PPM - wood.getWidth()/2,
-            woodVrtBody.getPosition().y * PPM - wood.getHeight()/2
-        );
-        wood.setRotation((float) Math.toDegrees(woodVrtBody.getAngle()));
 
         // Update glass positions
         Glass_ver[] glasses = {glass1, glass2};
@@ -662,12 +634,7 @@ public class LevelThree implements Screen {
                 kpigBody.getPosition().y * PPM - kpig.getHeight()/2
             );
         }
-        if (!mpigDead) {
-            mpig.setPosition(
-                mpigBody.getPosition().x * PPM - mpig.getWidth()/2,
-                mpigBody.getPosition().y * PPM - mpig.getHeight()/2
-            );
-        }
+
     }
 
     private void drawTrajectory() {
@@ -836,7 +803,6 @@ public class LevelThree implements Screen {
         woodv4.draw(sb);
         woodv5.draw(sb);
         woodv6.draw(sb);
-        wood.draw(sb);
         glass1.draw(sb);
         glass2.draw(sb);
         stone.draw(sb);
@@ -861,13 +827,6 @@ public class LevelThree implements Screen {
                 kpig.getWidth() + 40, kpig.getHeight() + 40);
         }
 
-        if (!mpigDead) {
-            mpig.draw(sb);
-        } else {
-            sb.draw(explosionTexture,
-                mpig.getX() - 20, mpig.getY() - 20,
-                mpig.getWidth() + 40, mpig.getHeight() + 40);
-        }
 
         // Check for level completion
         if (isExploding) {
@@ -896,9 +855,6 @@ public class LevelThree implements Screen {
                 body.setType(BodyDef.BodyType.DynamicBody);
             }
         }
-
-        win.draw(sb);
-        lose.draw(sb);
 
         sb.end();
         bodiesToMakeDynamic.clear();
@@ -940,13 +896,11 @@ public class LevelThree implements Screen {
         woodv4.dispose();
         woodv5.dispose();
         woodv6.dispose();
-        wood.dispose();
         glass1.dispose();
         glass2.dispose();
         stone.dispose();
         pig.dispose();
         kpig.dispose();
-        mpig.dispose();
         blackBird1.dispose();
         blackBird2.dispose();
         yellowBird1.dispose();
@@ -954,8 +908,6 @@ public class LevelThree implements Screen {
         redBird1.dispose();
         redBird2.dispose();
         slingshot.dispose();
-        win.dispose();
-        lose.dispose();
         stage.dispose();
         font.dispose();
         clickSound.dispose();

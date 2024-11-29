@@ -40,7 +40,7 @@ public class WinScreen implements Screen {
         this.shapeRenderer = new ShapeRenderer();
         this.viewport = new FitViewport(Main.V_WIDTH, Main.V_HEIGHT);
         this.stage = new Stage(viewport, batch);
-        this.bgTexture = new Texture("win.jpg");
+        this.bgTexture = new Texture("win.png");
 
         createButtons();
         Gdx.input.setInputProcessor(stage);

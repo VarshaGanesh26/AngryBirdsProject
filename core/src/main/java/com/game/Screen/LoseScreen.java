@@ -40,7 +40,7 @@ public class LoseScreen implements Screen {
         this.shapeRenderer = new ShapeRenderer();
         this.viewport = new FitViewport(Main.V_WIDTH, Main.V_HEIGHT);
         this.stage = new Stage(viewport, batch);
-        this.bgTexture = new Texture("lose (2).png");
+        this.bgTexture = new Texture("lose.png");
 
         createButtons();
         Gdx.input.setInputProcessor(stage);

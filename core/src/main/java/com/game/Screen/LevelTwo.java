@@ -44,8 +44,6 @@ public class LevelTwo implements Screen {
     private RedBird redBird;
     private Bird activeBird;
     private Slingshot slingshot;
-    private Win win;
-    private Lose lose;
     private BitmapFont font;
     private boolean isExploding = false;
     private float explosionTimer = 0;
@@ -163,10 +161,10 @@ public class LevelTwo implements Screen {
         // Initialize other objects
         slingshot = new Slingshot(160, 110);
         slingshot.setSize(70, 110);
-        win = new Win(220, 330);
-        win.setSize(80, 30);
-        lose = new Lose(335, 330);
-        lose.setSize(80, 30);
+        //win = new Win(220, 330);
+        //win.setSize(80, 30);
+        //lose = new Lose(335, 330);
+        //lose.setSize(80, 30);
     }
 
     private void initializeBirdQueue() {
@@ -674,6 +672,7 @@ public class LevelTwo implements Screen {
 
         world.step(1 / 60f, 6, 2);
         updatePhysicsSprites();
+        blackBird.update(delta);
 
         if (isBirdOnGround() && !isExploding) {
             resetBird();
@@ -741,8 +740,6 @@ public class LevelTwo implements Screen {
         bodiesToMakeDynamic.clear();
 
         updatePhysicsSprites();
-        win.draw(sb);
-        lose.draw(sb);
 
         sb.end();
 
@@ -777,8 +774,6 @@ public class LevelTwo implements Screen {
         yellowBird.dispose();
         redBird.dispose();
         slingshot.dispose();
-        win.dispose();
-        lose.dispose();
         stage.dispose();
         font.dispose();
         clickSound.dispose();
